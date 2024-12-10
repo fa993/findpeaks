@@ -40,102 +40,102 @@ public class FindPeaks {
 	 *
 	 * @see <a href="https://github.com/scipy/scipy/blob/92d2a8592782ee19a1161d0bf3fc2241ba78bb63/scipy/signal/_peak_finding.py#L729">FindPeaks Source</a>
 	 */
-	public FindPeaksOutput call(double[] x, Double height, Double threshold, Integer distance,
-									   Double prominence, Double width, Integer wlen, double relHeight,
-									   NumOrTwoSeqOrNdArr plateauSize) {
-
-
-		if (distance != null && distance < 1) {
-			throw new IllegalArgumentException("`distance` must be greater or equal to 1");
-		}
-
-		int[][] localMaxima = lm.localMaxima1D(x);
-		int[] peaks = localMaxima[0];
-		int[] leftEdges = localMaxima[1];
-		int[] rightEdges = localMaxima[2];
-		Map<String, double[]> properties = new HashMap<>();
-
-		if (plateauSize != null) {
-			// Evaluate plateau size
-			double[] plateauSizes = new double[rightEdges.length];
-			for (int i = 0; i < rightEdges.length; i++) {
-				plateauSizes[i] = rightEdges[i] - leftEdges[i] + 1;
-			}
-			PairOfDoubleOrDArr pminmax = UnpackConditionArgs.call(plateauSize, x, peaks);
-			boolean[] keep = SelectByProperty.call(plateauSizes, pminmax.getFirst(), pminmax.getSecond());
-			peaks = filterArray(peaks, keep);
-			properties.put("plateau_sizes", plateauSizes);
-			properties.put("left_edges", leftEdges);
-			properties.put("right_edges", rightEdges);
-			properties = filterProperties(properties, keep);
-		}
-
-		if (height != null) {
-			// Evaluate height condition
-			double[] peakHeights = new double[peaks.length];
-			for (int i = 0; i < peaks.length; i++) {
-				peakHeights[i] = x[peaks[i]];
-			}
-			double[] hminmax = unpackConditionArgs(height, x, peaks);
-			int[] keep = selectByProperty(peakHeights, hminmax[0], hminmax[1]);
-			peaks = filterArray(peaks, keep);
-			properties.put("peak_heights", peakHeights);
-			properties = filterProperties(properties, keep);
-		}
-
-		if (threshold != null) {
-			// Evaluate threshold condition
-			double[] tminmax = unpackConditionArgs(threshold, x, peaks);
-			Object[] thresholdResults = selectByPeakThreshold(x, peaks, tminmax[0], tminmax[1]);
-			int[] keep = (int[]) thresholdResults[0];
-			double[] leftThresholds = (double[]) thresholdResults[1];
-			double[] rightThresholds = (double[]) thresholdResults[2];
-			peaks = filterArray(peaks, keep);
-			properties.put("left_thresholds", leftThresholds);
-			properties.put("right_thresholds", rightThresholds);
-			properties = filterProperties(properties, keep);
-		}
-
-		if (distance != null) {
-			// Evaluate distance condition
-			int[] keep = selectByPeakDistance(peaks, x, distance);
-			peaks = filterArray(peaks, keep);
-			properties = filterProperties(properties, keep);
-		}
-
-		if (prominence != null || width != null) {
-			// Calculate prominence (required for both conditions)
-			wlen = argWlenAsExpected(wlen);
-			double[][] prominences = peakProminences(x, peaks, wlen);
-			properties.put("prominences", prominences[0]);
-			properties.put("left_bases", prominences[1]);
-			properties.put("right_bases", prominences[2]);
-		}
-
-		if (prominence != null) {
-			// Evaluate prominence condition
-			double[] pminmax = unpackConditionArgs(prominence, x, peaks);
-			int[] keep = selectByProperty(properties.get("prominences"), pminmax[0], pminmax[1]);
-			peaks = filterArray(peaks, keep);
-			properties = filterProperties(properties, keep);
-		}
-
-		if (width != null) {
-			// Calculate widths
-			double[][] widths = peakWidths(x, peaks, relHeight, properties.get("prominences"),
-					properties.get("left_bases"), properties.get("right_bases"));
-			properties.put("widths", widths[0]);
-			properties.put("width_heights", widths[1]);
-			properties.put("left_ips", widths[2]);
-			properties.put("right_ips", widths[3]);
-			// Evaluate width condition
-			double[] wminmax = unpackConditionArgs(width, x, peaks);
-			int[] keep = selectByProperty(properties.get("widths"), wminmax[0], wminmax[1]);
-			peaks = filterArray(peaks, keep);
-			properties = filterProperties(properties, keep);
-		}
-
-		return new Object[]{peaks, properties};
-	}
+//	public FindPeaksOutput call(double[] x, Double height, Double threshold, Integer distance,
+//									   Double prominence, Double width, Integer wlen, double relHeight,
+//									   NumOrTwoSeqOrNdArr plateauSize) {
+//
+//
+//		if (distance != null && distance < 1) {
+//			throw new IllegalArgumentException("`distance` must be greater or equal to 1");
+//		}
+//
+//		int[][] localMaxima = lm.localMaxima1D(x);
+//		int[] peaks = localMaxima[0];
+//		int[] leftEdges = localMaxima[1];
+//		int[] rightEdges = localMaxima[2];
+//		Map<String, double[]> properties = new HashMap<>();
+//
+//		if (plateauSize != null) {
+//			// Evaluate plateau size
+//			double[] plateauSizes = new double[rightEdges.length];
+//			for (int i = 0; i < rightEdges.length; i++) {
+//				plateauSizes[i] = rightEdges[i] - leftEdges[i] + 1;
+//			}
+//			PairOfDoubleOrDArr pminmax = UnpackConditionArgs.call(plateauSize, x, peaks);
+//			boolean[] keep = SelectByProperty.call(plateauSizes, pminmax.getFirst(), pminmax.getSecond());
+//			peaks = filterArray(peaks, keep);
+//			properties.put("plateau_sizes", plateauSizes);
+//			properties.put("left_edges", leftEdges);
+//			properties.put("right_edges", rightEdges);
+//			properties = filterProperties(properties, keep);
+//		}
+//
+//		if (height != null) {
+//			// Evaluate height condition
+//			double[] peakHeights = new double[peaks.length];
+//			for (int i = 0; i < peaks.length; i++) {
+//				peakHeights[i] = x[peaks[i]];
+//			}
+//			double[] hminmax = unpackConditionArgs(height, x, peaks);
+//			int[] keep = selectByProperty(peakHeights, hminmax[0], hminmax[1]);
+//			peaks = filterArray(peaks, keep);
+//			properties.put("peak_heights", peakHeights);
+//			properties = filterProperties(properties, keep);
+//		}
+//
+//		if (threshold != null) {
+//			// Evaluate threshold condition
+//			double[] tminmax = unpackConditionArgs(threshold, x, peaks);
+//			Object[] thresholdResults = selectByPeakThreshold(x, peaks, tminmax[0], tminmax[1]);
+//			int[] keep = (int[]) thresholdResults[0];
+//			double[] leftThresholds = (double[]) thresholdResults[1];
+//			double[] rightThresholds = (double[]) thresholdResults[2];
+//			peaks = filterArray(peaks, keep);
+//			properties.put("left_thresholds", leftThresholds);
+//			properties.put("right_thresholds", rightThresholds);
+//			properties = filterProperties(properties, keep);
+//		}
+//
+//		if (distance != null) {
+//			// Evaluate distance condition
+//			int[] keep = selectByPeakDistance(peaks, x, distance);
+//			peaks = filterArray(peaks, keep);
+//			properties = filterProperties(properties, keep);
+//		}
+//
+//		if (prominence != null || width != null) {
+//			// Calculate prominence (required for both conditions)
+//			wlen = argWlenAsExpected(wlen);
+//			double[][] prominences = peakProminences(x, peaks, wlen);
+//			properties.put("prominences", prominences[0]);
+//			properties.put("left_bases", prominences[1]);
+//			properties.put("right_bases", prominences[2]);
+//		}
+//
+//		if (prominence != null) {
+//			// Evaluate prominence condition
+//			double[] pminmax = unpackConditionArgs(prominence, x, peaks);
+//			int[] keep = selectByProperty(properties.get("prominences"), pminmax[0], pminmax[1]);
+//			peaks = filterArray(peaks, keep);
+//			properties = filterProperties(properties, keep);
+//		}
+//
+//		if (width != null) {
+//			// Calculate widths
+//			double[][] widths = peakWidths(x, peaks, relHeight, properties.get("prominences"),
+//					properties.get("left_bases"), properties.get("right_bases"));
+//			properties.put("widths", widths[0]);
+//			properties.put("width_heights", widths[1]);
+//			properties.put("left_ips", widths[2]);
+//			properties.put("right_ips", widths[3]);
+//			// Evaluate width condition
+//			double[] wminmax = unpackConditionArgs(width, x, peaks);
+//			int[] keep = selectByProperty(properties.get("widths"), wminmax[0], wminmax[1]);
+//			peaks = filterArray(peaks, keep);
+//			properties = filterProperties(properties, keep);
+//		}
+//
+//		return new Object[]{peaks, properties};
+//	}
 
 }

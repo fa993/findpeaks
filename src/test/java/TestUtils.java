@@ -22,4 +22,16 @@ public class TestUtils {
 		return Arrays.stream(line.substring(1, line.length() - 1).split(",")).map(String::trim).map(t -> "None".equals(t) ? null: Double.valueOf(t)).collect(Collectors.toList()).toArray(new Double[]{});
 	}
 
+	public static double[][] reshape(double[] base, int firstDim) {
+		double[][] newArr = new double[firstDim][base.length / firstDim];
+		int k = 0;
+		for(int i = 0; i < firstDim; i++) {
+			for(int j = 0; j < base.length / firstDim; j++) {
+				newArr[i][j] = base[k++];
+			}
+		}
+		return newArr;
+	}
+
+
 }

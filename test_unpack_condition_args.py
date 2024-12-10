@@ -70,12 +70,17 @@ grs = read_lines_in_groups("input.txt")
 # assume x is a number
 for gr in grs:
     interval = list(map(float, gr[0].split()))
-#     print(interval)
-    if len(interval) == 1:
-        interval = interval[0]
-
     x = list(map(float, gr[1].split()))
     peaks = list(map(int, gr[2].split()))
+    if len(interval) > len(x):
+        interval = np.array(interval)
+        interval = interval.reshape((2, -1))
+    elif len(interval) == 1:
+        interval = interval[0]
 
-    out = _unpack_condition_args(interval, x, peaks)
-    print(out)
+    out = _unpack_condition_args(interval, np.array(x), np.array(peaks))
+    if isinstance(out[0], np.ndarray):
+        print(out[0].tolist())
+        print(out[1].tolist())
+    else:
+        print(out)

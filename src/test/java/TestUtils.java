@@ -14,8 +14,12 @@ public class TestUtils {
 		return arr;
 	}
 
-	public static Integer[] parsePythonArray(String line) {
+	public static Integer[] parsePythonArrayToInteger(String line) {
 		return Arrays.stream(line.substring(1, line.length() - 1).split(",")).map(String::trim).map(t -> "None".equals(t) ? null: Integer.valueOf(t)).collect(Collectors.toList()).toArray(new Integer[]{});
+	}
+
+	public static Double[] parsePythonArrayToDouble(String line) {
+		return Arrays.stream(line.substring(1, line.length() - 1).split(",")).map(String::trim).map(t -> "None".equals(t) ? null: Double.valueOf(t)).collect(Collectors.toList()).toArray(new Double[]{});
 	}
 
 }

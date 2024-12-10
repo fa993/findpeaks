@@ -69,7 +69,11 @@ def read_lines_in_groups(filename, group_size=3):
 grs = read_lines_in_groups("input.txt")
 # assume x is a number
 for gr in grs:
-    interval = int(gr[0])
+    interval = list(map(float, gr[0].split()))
+#     print(interval)
+    if len(interval) == 1:
+        interval = interval[0]
+
     x = list(map(float, gr[1].split()))
     peaks = list(map(int, gr[2].split()))
 

@@ -63,7 +63,7 @@ public class LocalMaximaTest {
 			String lefts = lst.get(i + 1);
 			String rights = lst.get(i + 2);
 			pyex[ind++] = new int[][] {
-				Arrays.stream(TestUtils.parsePythonArray(mids)).mapToInt(y -> y).toArray(), Arrays.stream(TestUtils.parsePythonArray(lefts)).mapToInt(y -> y).toArray(), Arrays.stream(TestUtils.parsePythonArray(rights)).mapToInt(y -> y).toArray()
+				Arrays.stream(TestUtils.parsePythonArrayToInteger(mids)).mapToInt(y -> y).toArray(), Arrays.stream(TestUtils.parsePythonArrayToInteger(lefts)).mapToInt(y -> y).toArray(), Arrays.stream(TestUtils.parsePythonArrayToInteger(rights)).mapToInt(y -> y).toArray()
 			};
 		}
 		assertArrayEquals(outsCC, outsJIU);

@@ -39,12 +39,14 @@ public class Either {
 		public static <A, B> OfTwo<A, B> first(A first) {
 			OfTwo<A, B> out = new OfTwo<>();
 			out.first = first;
+			out.selector = Selector.First;
 			return out;
 		}
 
 		public static <A, B> OfTwo<A, B> second(B second) {
 			OfTwo<A, B> out = new OfTwo<>();
 			out.second = second;
+			out.selector = Selector.Second;
 			return out;
 		}
 
@@ -87,18 +89,21 @@ public class Either {
 		public static <A, B, C> OfThree<A, B, C> first(A first) {
 			OfThree<A, B, C> out = new OfThree<>();
 			out.first = first;
+			out.selector = Selector.First;
 			return out;
 		}
 
 		public static <A, B, C> OfThree<A, B, C> second(B second) {
 			OfThree<A, B, C> out = new OfThree<>();
 			out.second = second;
+			out.selector = Selector.Second;
 			return out;
 		}
 
 		public static <A, B, C> OfThree<A, B, C> third(C third) {
 			OfThree<A, B, C> out = new OfThree<>();
 			out.third = third;
+			out.selector = Selector.Third;
 			return out;
 		}
 

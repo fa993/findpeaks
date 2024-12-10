@@ -1,7 +1,5 @@
 import com.fa993.function.variations.LocalMaximaJIU;
 import com.fa993.function.variations.LocalMaximaCC;
-import jep.Interpreter;
-import jep.SharedInterpreter;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -21,21 +18,12 @@ public class LocalMaximaTest {
 
 	private LocalMaximaJIU way1 = new LocalMaximaJIU();
 	private LocalMaximaCC way2 = new LocalMaximaCC();
-	private Random rand = new Random();
-
-	private double[] getRandomPoints(int n) {
-		double[] arr = new double[n];
-		for(int i = 0; i < arr.length; i++) {
-			arr[i] = rand.nextDouble();
-		}
-		return arr;
-	}
 
 	// Run for 1000 times, fail if even 1 is wrong
 	@RepeatedTest(value = 1000, failureThreshold = 1)
 	void testRandomPeaksForLocalMaxima1000Values() {
 		// generate 1000 random values
-		double[] points = getRandomPoints(1000);
+		double[] points = TestUtils.getRandomPoints(1000);
 		int[][] ans1 = way1.localMaxima1D(points);
 		int[][] ans2 = way2.localMaxima1D(points);
 		assertArrayEquals(ans1, ans2);
@@ -54,7 +42,7 @@ public class LocalMaximaTest {
 		int[][][] outsJIU = new int[iters][][];
 		int[][][] outsCC = new int[iters][][];
 		for(int i = 0; i < iters; i++) {
-			double[] points = getRandomPoints(1000);
+			double[] points = TestUtils.getRandomPoints(1000);
 			outsJIU[i] = way1.localMaxima1D(points);
 			outsCC[i] = way2.localMaxima1D(points);
 			bw.write(Arrays.stream(points).mapToObj(Double::toString).collect(Collectors.joining(" ")));
@@ -75,7 +63,7 @@ public class LocalMaximaTest {
 			String lefts = lst.get(i + 1);
 			String rights = lst.get(i + 2);
 			pyex[ind++] = new int[][] {
-				parsePythonArray(mids), parsePythonArray(lefts), parsePythonArray(rights)
+				Arrays.stream(TestUtils.parsePythonArray(mids)).mapToInt(y -> y).toArray(), Arrays.stream(TestUtils.parsePythonArray(lefts)).mapToInt(y -> y).toArray(), Arrays.stream(TestUtils.parsePythonArray(rights)).mapToInt(y -> y).toArray()
 			};
 		}
 		assertArrayEquals(outsCC, outsJIU);
@@ -83,8 +71,6 @@ public class LocalMaximaTest {
 
 	}
 
-	private int[] parsePythonArray(String line) {
-		return Arrays.stream(line.substring(1, line.length() - 1).split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
-	}
+
 
 }

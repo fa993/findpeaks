@@ -79,10 +79,8 @@ def _local_maxima_1d(x):
 
     return midpoints, left_edges, right_edges
 
-# print(_local_maxima_1d(np.array([])))
 
 def read_double_numbers(filename):
-#     double_numbers = []
     try:
         with open(filename, 'r') as file:
             # Read and parse the file
@@ -94,12 +92,6 @@ def read_double_numbers(filename):
                 print(out[0].tolist())
                 print(out[1].tolist())
                 print(out[2].tolist())
-#                 double_numbers.extend(numbers)
-                # Stop if we have read enough numbers
-#                 if len(double_numbers) >= count:
-#                     break
-        # Truncate the list to exactly `count` numbers if necessary
-#         return double_numbers[:count]
     except Exception as e:
         print(f"Error reading file: {e}")
         return []

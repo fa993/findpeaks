@@ -6,4 +6,4 @@ cd $DIR
 
 source forjep/bin/activate
 
-python test_unpack_condition_args.py
+python test_select_by_property.py

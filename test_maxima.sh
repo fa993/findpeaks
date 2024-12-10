@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-cd /Users/ameyakore/workspaces/random-workspace/num4j
+DIR="$( cd "$( dirname "$0" )" && pwd )"
+
+cd $DIR
 
 source forjep/bin/activate
 

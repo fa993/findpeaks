@@ -18,7 +18,7 @@ public class SelectByProperty {
 	 * @return A boolean array evaluating to true where `peakProperties` conforms to the interval.
 	 * @throws IllegalArgumentException if `pmin` or `pmax` is an array of a different length than `peakProperties`.
 	 */
-	public static boolean[] call(double[] peakProperties, Either.OfTwo<Double, double[]> pmin, Either.OfTwo<Double, double[]> pmax) {
+	public static boolean[] call(int[] peakProperties, Either.OfTwo<Double, double[]> pmin, Either.OfTwo<Double, double[]> pmax) {
 		double[] pminArray = (pmin == null) ? null : new double[peakProperties.length];
 		double[] pmaxArray = (pmax == null) ? null : new double[peakProperties.length];
 

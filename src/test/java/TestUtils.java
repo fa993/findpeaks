@@ -1,6 +1,8 @@
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TestUtils {
 
@@ -33,5 +35,13 @@ public class TestUtils {
 		return newArr;
 	}
 
+	public static boolean[] parsePythonArrayToBoolean(String line) {
+		List<Boolean> asd = Arrays.stream(line.substring(1, line.length() - 1).split(",")).map(String::trim).map(String::toLowerCase).map(Boolean::valueOf).collect(Collectors.toList());
+		boolean[] b2 = new boolean[asd.size()];
+		for(int i = 0; i < asd.size(); i++) {
+			b2[i] = asd.get(i);
+		}
+		return b2;
+	}
 
 }

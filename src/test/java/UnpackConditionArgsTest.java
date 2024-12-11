@@ -1,7 +1,7 @@
-import com.fa993.function.supertype.NumOrTwoSeqOrNdArr;
-import com.fa993.function.supertype.PairOfDoubleOrDArr;
-import com.fa993.function.utils.UnpackConditionArgs;
-import com.fa993.function.variations.LocalMaximaJIU;
+import com.fa993.types.supertype.NumOrTwoSeqOrNdArr;
+import com.fa993.types.supertype.PairOfDoubleOrDArr;
+import com.fa993.utils.UnpackConditionArgs;
+import com.fa993.variations.LocalMaximaJIU;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;

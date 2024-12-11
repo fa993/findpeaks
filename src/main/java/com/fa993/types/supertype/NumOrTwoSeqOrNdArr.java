@@ -1,4 +1,4 @@
-package com.fa993.function.supertype;
+package com.fa993.types.supertype;
 
 import lombok.NonNull;
 

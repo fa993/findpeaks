@@ -1,6 +1,6 @@
-import com.fa993.function.FindPeaks;
-import com.fa993.function.FindPeaksOutput;
-import com.fa993.function.supertype.NumOrTwoSeqOrNdArr;
+import com.fa993.FindPeaks;
+import com.fa993.types.FindPeaksOutput;
+import com.fa993.types.supertype.NumOrTwoSeqOrNdArr;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -203,6 +203,81 @@ public class FindPeaksTest {
 			smLs.set(0, Arrays.stream(points).mapToObj(Double::toString).collect(Collectors.joining(" ")));
 			smLs.set(1, Double.toString(rndH[0]));
 			smLs.set(8, Double.toString(rndH[1]));
+			return smLs;
+		});
+		FindPeaksOutput[] pyex = new FindPeaksOutput[iters];
+		int ind = 0;
+		int current = 0;
+		while (current < lst.size()){
+			int lC = Integer.parseInt(lst.get(current).trim());
+			pyex[ind++] = TestUtils.parseFindPeaksOutputFromLines(lst.subList(current + 1, current + lC + 1));
+			current += lC + 1;
+		}
+		assertArrayEquals(overloadOuts, pyex);
+	}
+
+	@Test
+	public void testWithThreshold() throws IOException, InterruptedException {
+		int iters = 1000;
+		int count = 1000;
+		FindPeaksOutput[] overloadOuts = new FindPeaksOutput[iters];
+		List<String> lst = TestUtils.runAgainstShellScript("test_find_peaks.sh", iters, (i) -> {
+			double rndH = TestUtils.getRandomPoints(1)[0];
+			double[] points = TestUtils.getRandomPoints(count);
+			overloadOuts[i] = fp.call(points, null, NumOrTwoSeqOrNdArr.first(rndH), null, null, null, null, null, null);
+			List<String> smLs = Stream.generate(() -> "").limit(9).collect(Collectors.toList());
+			smLs.set(0, Arrays.stream(points).mapToObj(Double::toString).collect(Collectors.joining(" ")));
+			smLs.set(2, Double.toString(rndH));
+			return smLs;
+		});
+		FindPeaksOutput[] pyex = new FindPeaksOutput[iters];
+		int ind = 0;
+		int current = 0;
+		while (current < lst.size()){
+			int lC = Integer.parseInt(lst.get(current).trim());
+			pyex[ind++] = TestUtils.parseFindPeaksOutputFromLines(lst.subList(current + 1, current + lC + 1));
+			current += lC + 1;
+		}
+		assertArrayEquals(overloadOuts, pyex);
+	}
+
+	@Test
+	public void testWithThresholdUpperLower() throws IOException, InterruptedException {
+		int iters = 1000;
+		int count = 1000;
+		FindPeaksOutput[] overloadOuts = new FindPeaksOutput[iters];
+		List<String> lst = TestUtils.runAgainstShellScript("test_find_peaks.sh", iters, (i) -> {
+			double[] rndH = TestUtils.getRandomPoints(2);
+			double[] points = TestUtils.getRandomPoints(count);
+			overloadOuts[i] = fp.call(points, null, NumOrTwoSeqOrNdArr.second(rndH), null, null, null, null, null, null);
+			List<String> smLs = Stream.generate(() -> "").limit(9).collect(Collectors.toList());
+			smLs.set(0, Arrays.stream(points).mapToObj(Double::toString).collect(Collectors.joining(" ")));
+			smLs.set(2, Arrays.stream(rndH).mapToObj(Double::toString).collect(Collectors.joining(" ")));
+			return smLs;
+		});
+		FindPeaksOutput[] pyex = new FindPeaksOutput[iters];
+		int ind = 0;
+		int current = 0;
+		while (current < lst.size()){
+			int lC = Integer.parseInt(lst.get(current).trim());
+			pyex[ind++] = TestUtils.parseFindPeaksOutputFromLines(lst.subList(current + 1, current + lC + 1));
+			current += lC + 1;
+		}
+		assertArrayEquals(overloadOuts, pyex);
+	}
+
+	@Test
+	public void testWithThresholdAll() throws IOException, InterruptedException {
+		int iters = 1000;
+		int count = 1000;
+		FindPeaksOutput[] overloadOuts = new FindPeaksOutput[iters];
+		List<String> lst = TestUtils.runAgainstShellScript("test_find_peaks.sh", iters, (i) -> {
+			double[] rndH = TestUtils.getRandomPoints(2 * count);
+			double[] points = TestUtils.getRandomPoints(count);
+			overloadOuts[i] = fp.call(points, null, NumOrTwoSeqOrNdArr.third(TestUtils.reshape(rndH, 2)), null, null, null, null, null, null);
+			List<String> smLs = Stream.generate(() -> "").limit(9).collect(Collectors.toList());
+			smLs.set(0, Arrays.stream(points).mapToObj(Double::toString).collect(Collectors.joining(" ")));
+			smLs.set(2, Arrays.stream(rndH).mapToObj(Double::toString).collect(Collectors.joining(" ")));
 			return smLs;
 		});
 		FindPeaksOutput[] pyex = new FindPeaksOutput[iters];

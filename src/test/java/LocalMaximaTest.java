@@ -1,5 +1,5 @@
-import com.fa993.function.variations.LocalMaximaJIU;
-import com.fa993.function.variations.LocalMaximaCC;
+import com.fa993.variations.LocalMaximaJIU;
+import com.fa993.variations.LocalMaximaCC;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 

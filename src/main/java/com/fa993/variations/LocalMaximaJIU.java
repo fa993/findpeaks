@@ -1,4 +1,4 @@
-package com.fa993.function.variations;
+package com.fa993.variations;
 
 public class LocalMaximaJIU implements LocalMaxima {
 	/**

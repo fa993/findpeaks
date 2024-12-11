@@ -1,5 +1,5 @@
-package com.fa993.function.utils;
-import com.fa993.function.supertype.Either;
+package com.fa993.utils;
+import com.fa993.types.supertype.Either;
 
 import java.util.Arrays;
 

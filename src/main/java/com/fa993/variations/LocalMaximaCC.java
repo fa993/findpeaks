@@ -1,4 +1,4 @@
-package com.fa993.function.variations;
+package com.fa993.variations;
 
 import java.util.ArrayList;
 import java.util.List;

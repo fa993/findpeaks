@@ -1,8 +1,8 @@
-package com.fa993.function.utils;
+package com.fa993.utils;
 
-import com.fa993.function.supertype.Either;
-import com.fa993.function.supertype.NumOrTwoSeqOrNdArr;
-import com.fa993.function.supertype.PairOfDoubleOrDArr;
+import com.fa993.types.supertype.Either;
+import com.fa993.types.supertype.NumOrTwoSeqOrNdArr;
+import com.fa993.types.supertype.PairOfDoubleOrDArr;
 
 public class UnpackConditionArgs {
 

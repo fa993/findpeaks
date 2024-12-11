@@ -1,6 +1,6 @@
-import com.fa993.function.supertype.Either;
-import com.fa993.function.utils.SelectByProperty;
-import com.fa993.function.variations.LocalMaximaJIU;
+import com.fa993.types.supertype.Either;
+import com.fa993.utils.SelectByProperty;
+import com.fa993.variations.LocalMaximaJIU;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;

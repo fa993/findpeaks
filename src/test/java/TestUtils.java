@@ -1,10 +1,8 @@
-import com.fa993.function.FindPeaksOutput;
+import com.fa993.types.FindPeaksOutput;
 
 import java.io.*;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

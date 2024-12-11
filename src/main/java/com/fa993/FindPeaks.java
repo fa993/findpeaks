@@ -1,12 +1,15 @@
-package com.fa993.function;
+package com.fa993;
 
-import com.fa993.function.supertype.NumOrTwoSeqOrNdArr;
-import com.fa993.function.supertype.PairOfDoubleOrDArr;
-import com.fa993.function.utils.Filter;
-import com.fa993.function.utils.SelectByProperty;
-import com.fa993.function.utils.UnpackConditionArgs;
-import com.fa993.function.variations.LocalMaxima;
-import com.fa993.function.variations.LocalMaximaJIU;
+import com.fa993.types.FindPeaksOutput;
+import com.fa993.types.SelectThresholdOutput;
+import com.fa993.types.supertype.NumOrTwoSeqOrNdArr;
+import com.fa993.types.supertype.PairOfDoubleOrDArr;
+import com.fa993.utils.Filter;
+import com.fa993.utils.SelectByPeakThreshold;
+import com.fa993.utils.SelectByProperty;
+import com.fa993.utils.UnpackConditionArgs;
+import com.fa993.variations.LocalMaxima;
+import com.fa993.variations.LocalMaximaJIU;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +41,7 @@ public class FindPeaks {
 	 *
 	 * @see <a href="https://github.com/scipy/scipy/blob/92d2a8592782ee19a1161d0bf3fc2241ba78bb63/scipy/signal/_peak_finding.py#L729">FindPeaks Source</a>
 	 */
-	public FindPeaksOutput call(double[] x, NumOrTwoSeqOrNdArr height, Double threshold, Integer distance,
+	public FindPeaksOutput call(double[] x, NumOrTwoSeqOrNdArr height, NumOrTwoSeqOrNdArr threshold, Integer distance,
 									   Double prominence, Double width, Integer wlen, Double relHeight,
 									   NumOrTwoSeqOrNdArr plateauSize) {
 
@@ -85,18 +88,16 @@ public class FindPeaks {
 			Filter.filterProperties(properties, keep);
 		}
 
-//		if (threshold != null) {
-//			// Evaluate threshold condition
-//			double[] tminmax = UnpackConditionArgs.call(threshold, x, peaks);
-//			Object[] thresholdResults = selectByPeakThreshold(x, peaks, tminmax[0], tminmax[1]);
-//			int[] keep = (int[]) thresholdResults[0];
-//			double[] leftThresholds = (double[]) thresholdResults[1];
-//			double[] rightThresholds = (double[]) thresholdResults[2];
-//			peaks = filterArray(peaks, keep);
-//			properties.put("left_thresholds", leftThresholds);
-//			properties.put("right_thresholds", rightThresholds);
-//			properties = filterProperties(properties, keep);
-//		}
+		if (threshold != null) {
+			// Evaluate threshold condition
+			PairOfDoubleOrDArr tminmax = UnpackConditionArgs.call(threshold, x, peaks);
+			// this function is tested by the global find peaks test, granular testing on this level involves too much effort compared to it's worth
+			SelectThresholdOutput thresholdResults = SelectByPeakThreshold.call(x, peaks, tminmax.getFirst(), tminmax.getSecond());
+			peaks = Filter.filterArray(peaks, thresholdResults.getKeep());
+			properties.put("left_thresholds", thresholdResults.getLeftThresholds());
+			properties.put("right_thresholds", thresholdResults.getRightThresholds());
+			Filter.filterProperties(properties, thresholdResults.getKeep());
+		}
 //
 //		if (distance != null) {
 //			// Evaluate distance condition

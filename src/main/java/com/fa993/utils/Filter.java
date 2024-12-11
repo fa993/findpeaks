@@ -1,10 +1,8 @@
-package com.fa993.function.utils;
+package com.fa993.utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 public class Filter {
 

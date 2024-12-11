@@ -1,8 +1,6 @@
-import com.fa993.function.FindPeaksOutput;
+import com.fa993.types.FindPeaksOutput;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,6 +1,4 @@
-package com.fa993.function;
-
-import lombok.EqualsAndHashCode;
+package com.fa993.types;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;

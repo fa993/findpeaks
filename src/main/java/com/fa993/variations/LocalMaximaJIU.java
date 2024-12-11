@@ -1,5 +1,7 @@
 package com.fa993.variations;
 
+import com.fa993.types.LocalMaximaOutput;
+
 public class LocalMaximaJIU implements LocalMaxima {
 	/**
 	 * JavaInUse's output after putting numpy source for _local_maxima_1d
@@ -10,7 +12,7 @@ public class LocalMaximaJIU implements LocalMaxima {
 	 * @see <a href="https://github.com/scipy/scipy/blob/92d2a8592782ee19a1161d0bf3fc2241ba78bb63/scipy/signal/_peak_finding_utils.pyx#L20C1-L21C1">LocalMaxima source</a>
 	 */
 	@Override
-	public int[][] localMaxima1D(double[] x) {
+	public LocalMaximaOutput localMaxima1D(double[] x) {
 		int[] midpoints = new int[x.length / 2];
 		int[] leftEdges = new int[x.length / 2];
 		int[] rightEdges = new int[x.length / 2];
@@ -42,6 +44,6 @@ public class LocalMaximaJIU implements LocalMaxima {
 		System.arraycopy(leftEdges, 0, validLeftEdges, 0, m);
 		System.arraycopy(rightEdges, 0, validRightEdges, 0, m);
 
-		return new int[][]{validMidpoints, validLeftEdges, validRightEdges};
+		return new LocalMaximaOutput(validMidpoints, validLeftEdges, validRightEdges);
 	}
 }

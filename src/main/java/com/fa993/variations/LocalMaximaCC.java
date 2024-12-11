@@ -1,5 +1,7 @@
 package com.fa993.variations;
 
+import com.fa993.types.LocalMaximaOutput;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +16,7 @@ public class LocalMaximaCC implements LocalMaxima {
 	 * @see <a href="https://github.com/scipy/scipy/blob/92d2a8592782ee19a1161d0bf3fc2241ba78bb63/scipy/signal/_peak_finding_utils.pyx#L20C1-L21C1">LocalMaxima source</a>
 	 */
 	@Override
-	public int[][] localMaxima1D(double[] x) {
+	public LocalMaximaOutput localMaxima1D(double[] x) {
 		if (x == null) {
 			throw new IllegalArgumentException("Input array cannot be null");
 		}
@@ -52,9 +54,9 @@ public class LocalMaximaCC implements LocalMaxima {
 		}
 
 		// Convert lists to arrays
-		return new int[][] {midpoints.stream().mapToInt(t -> t).toArray(),
+		return new LocalMaximaOutput(midpoints.stream().mapToInt(t -> t).toArray(),
 				leftEdges.stream().mapToInt(t -> t).toArray(),
-				rightEdges.stream().mapToInt(t -> t).toArray()};
+				rightEdges.stream().mapToInt(t -> t).toArray());
 	}
 }
 

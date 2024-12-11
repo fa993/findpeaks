@@ -24,7 +24,7 @@ public class UnpackConditionArgsTest {
 		List<String> lst = TestUtils.runAgainstShellScript("test_unpack_condition_args.sh", iters, (i) -> {
 			double[] points = TestUtils.getRandomPoints(count);
 			double ptr = TestUtils.getRandomPoints(1)[0];
-			outsJIU[i] = way1.localMaxima1D(points)[0];
+			outsJIU[i] = way1.localMaxima1D(points).getMidpoints();
 			PairOfDoubleOrDArr out = UnpackConditionArgs.call(NumOrTwoSeqOrNdArr.first(ptr), points, outsJIU[i]);
 			ans[i] = new Double []{out.getFirst().getFirst(), out.getSecond() == null ? null : out.getSecond().getFirst()};
 			return List.of(
@@ -50,7 +50,7 @@ public class UnpackConditionArgsTest {
 		List<String> lst = TestUtils.runAgainstShellScript("test_unpack_condition_args.sh", iters, (i) -> {
 			double[] points = TestUtils.getRandomPoints(count);
 			double[] ptrs = TestUtils.getRandomPoints(2);
-			outsJIU[i] = way1.localMaxima1D(points)[0];
+			outsJIU[i] = way1.localMaxima1D(points).getMidpoints();
 			PairOfDoubleOrDArr out = UnpackConditionArgs.call(NumOrTwoSeqOrNdArr.second(ptrs), points, outsJIU[i]);
 			ans[i] = new Double []{out.getFirst().getFirst(), out.getSecond() == null ? null : out.getSecond().getFirst()};
 			return List.of(
@@ -77,7 +77,7 @@ public class UnpackConditionArgsTest {
 			double[] points = TestUtils.getRandomPoints(count);
 			double[] ptrs = TestUtils.getRandomPoints(points.length * 2);
 			double[][] pttrs = TestUtils.reshape(ptrs, 2);
-			outsJIU[i] = way1.localMaxima1D(points)[0];
+			outsJIU[i] = way1.localMaxima1D(points).getMidpoints();
 			PairOfDoubleOrDArr out = UnpackConditionArgs.call(NumOrTwoSeqOrNdArr.third(pttrs), points, outsJIU[i]);
 			ans[i] = new double [][]{out.getFirst().getSecond(), out.getSecond().getSecond()};
 			return List.of(

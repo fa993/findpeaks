@@ -1,8 +1,10 @@
 package com.fa993.variations;
 
+import com.fa993.types.LocalMaximaOutput;
+
 /**
  * Unifying Interface for different LocalMaxima Implementations
  */
 public interface LocalMaxima {
-	 int[][] localMaxima1D(double[] x);
+	 LocalMaximaOutput localMaxima1D(double[] x);
 }

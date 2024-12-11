@@ -23,7 +23,7 @@ public class SelectByPropertyTest {
 		List<String> lst = TestUtils.runAgainstShellScript("test_select_by_property.sh", iters, (i) -> {
 			double[] points = TestUtils.getRandomPoints(count);
 			double[] ptrs = TestUtils.getRandomPoints(2);
-			outsJIU[i] = way1.localMaxima1D(points)[0];
+			outsJIU[i] = way1.localMaxima1D(points).getMidpoints();
 			ans[i] = SelectByProperty.call(outsJIU[i], Either.OfTwo.first(ptrs[0]), Either.OfTwo.first(ptrs[1]));
 			return List.of(
 					Arrays.stream(outsJIU[i]).mapToObj(Integer::toString).collect(Collectors.joining(" ")),
@@ -48,7 +48,7 @@ public class SelectByPropertyTest {
 		List<String> lst = TestUtils.runAgainstShellScript("test_select_by_property.sh", iters, (i) -> {
 			double[] points = TestUtils.getRandomPoints(count);
 			double[] ptrs = TestUtils.getRandomPoints(2);
-			outsJIU[i] = way1.localMaxima1D(points)[0];
+			outsJIU[i] = way1.localMaxima1D(points).getMidpoints();
 			ans[i] = SelectByProperty.call(outsJIU[i], null, Either.OfTwo.first(ptrs[1]));
 			return List.of(
 					Arrays.stream(outsJIU[i]).mapToObj(Integer::toString).collect(Collectors.joining(" ")),
@@ -73,7 +73,7 @@ public class SelectByPropertyTest {
 		List<String> lst = TestUtils.runAgainstShellScript("test_select_by_property.sh", iters, (i) -> {
 			double[] points = TestUtils.getRandomPoints(count);
 			double[] ptrs = TestUtils.getRandomPoints(2);
-			outsJIU[i] = way1.localMaxima1D(points)[0];
+			outsJIU[i] = way1.localMaxima1D(points).getMidpoints();
 			ans[i] = SelectByProperty.call(outsJIU[i], Either.OfTwo.first(ptrs[0]), null);
 			return List.of(
 					Arrays.stream(outsJIU[i]).mapToObj(Integer::toString).collect(Collectors.joining(" ")),
@@ -97,7 +97,7 @@ public class SelectByPropertyTest {
 		boolean[][] ans = new boolean[iters][];
 		List<String> lst = TestUtils.runAgainstShellScript("test_select_by_property.sh", iters, (i) -> {
 			double[] points = TestUtils.getRandomPoints(count);
-			outsJIU[i] = way1.localMaxima1D(points)[0];
+			outsJIU[i] = way1.localMaxima1D(points).getMidpoints();
 			double[] ptrs = TestUtils.getRandomPoints(2 * outsJIU[i].length);
 			double[][] pttrs = TestUtils.reshape(ptrs, 2);
 			ans[i] = SelectByProperty.call(outsJIU[i], Either.OfTwo.second(pttrs[0]), Either.OfTwo.second(pttrs[1]));

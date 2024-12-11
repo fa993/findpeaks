@@ -1,6 +1,8 @@
 package com.fa993;
 
 import com.fa993.types.FindPeaksOutput;
+import com.fa993.types.LocalMaximaOutput;
+import com.fa993.types.PeakProminenceOutput;
 import com.fa993.types.SelectThresholdOutput;
 import com.fa993.types.supertype.NumOrTwoSeqOrNdArr;
 import com.fa993.types.supertype.PairOfDoubleOrDArr;
@@ -28,7 +30,7 @@ public class FindPeaks {
 	 * @return object with midpoints of peak, python 1-1
 	 */
 	public FindPeaksOutput call(double[] points) {
-		return new FindPeaksOutput(lm.localMaxima1D(points)[0], new HashMap<>());
+		return new FindPeaksOutput(lm.localMaxima1D(points).getMidpoints(), new HashMap<>());
 	}
 
 	// for this function both java in use and code convert give very similar output
@@ -51,10 +53,10 @@ public class FindPeaks {
 			relHeight = 0.5;
 		}
 
-		int[][] localMaxima = lm.localMaxima1D(x);
-		int[] peaks = localMaxima[0];
-		int[] leftEdges = localMaxima[1];
-		int[] rightEdges = localMaxima[2];
+		LocalMaximaOutput localMaxima = lm.localMaxima1D(x);
+		int[] peaks = localMaxima.getMidpoints();
+		int[] leftEdges = localMaxima.getLeftEdges();
+		int[] rightEdges = localMaxima.getRightEdges();
 		Map<String, Object> properties = new HashMap<>();
 
 		if (plateauSize != null) {
@@ -107,23 +109,23 @@ public class FindPeaks {
 			peaks = Filter.filterArray(peaks, keep);
 			Filter.filterProperties(properties, keep);
 		}
-//
-//		if (prominence != null || width != null) {
-//			// Calculate prominence (required for both conditions)
-//			wlen = argWlenAsExpected(wlen);
-//			double[][] prominences = peakProminences(x, peaks, wlen);
-//			properties.put("prominences", prominences[0]);
-//			properties.put("left_bases", prominences[1]);
-//			properties.put("right_bases", prominences[2]);
-//		}
-//
-//		if (prominence != null) {
-//			// Evaluate prominence condition
-//			double[] pminmax = UnpackConditionArgs.call(prominence, x, peaks);
-//			int[] keep = SelectByProperty.call(properties.get("prominences"), pminmax[0], pminmax[1]);
-//			peaks = filterArray(peaks, keep);
-//			properties = filterProperties(properties, keep);
-//		}
+
+		if (prominence != null || width != null) {
+			// Calculate prominence (required for both conditions)
+			wlen = PeakProminences.argWlenAsExpected(wlen);
+			PeakProminenceOutput prominences = PeakProminences.call(x, peaks, wlen);
+			properties.put("prominences", prominences.getProminences());
+			properties.put("left_bases", prominences.getLeftBases());
+			properties.put("right_bases", prominences.getRightBases());
+		}
+
+		if (prominence != null) {
+			// Evaluate prominence condition
+			PairOfDoubleOrDArr pminmax = UnpackConditionArgs.call(NumOrTwoSeqOrNdArr.first(prominence), x, peaks);
+			boolean[] keep = SelectByProperty.call((double[]) properties.get("prominences"), pminmax.getFirst(), pminmax.getSecond());
+			peaks = Filter.filterArray(peaks, keep);
+			Filter.filterProperties(properties, keep);
+		}
 //
 //		if (width != null) {
 //			// Calculate widths

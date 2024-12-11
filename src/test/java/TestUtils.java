@@ -120,6 +120,7 @@ public class TestUtils {
 		bw.close();
 		ProcessBuilder processBuilder = new ProcessBuilder(System.getProperty("user.dir") + "/" + scriptName);
 		processBuilder.redirectOutput(output);
+		processBuilder.redirectErrorStream(true);
 		Process process = processBuilder.start();
 		int exitCode = process.waitFor();
 		assertEquals(0, exitCode);

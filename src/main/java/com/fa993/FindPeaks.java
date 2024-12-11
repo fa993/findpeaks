@@ -41,8 +41,8 @@ public class FindPeaks {
 	 * @see <a href="https://github.com/scipy/scipy/blob/92d2a8592782ee19a1161d0bf3fc2241ba78bb63/scipy/signal/_peak_finding.py#L729">FindPeaks Source</a>
 	 */
 	public FindPeaksOutput call(double[] x, NumOrTwoSeqOrNdArr height, NumOrTwoSeqOrNdArr threshold, Double distance,
-									   Double prominence, Double width, Integer wlen, Double relHeight,
-									   NumOrTwoSeqOrNdArr plateauSize) {
+								NumOrTwoSeqOrNdArr prominence, Double width, Integer wlen, Double relHeight,
+								NumOrTwoSeqOrNdArr plateauSize) {
 
 
 		if (distance != null && distance < 1) {
@@ -121,7 +121,7 @@ public class FindPeaks {
 
 		if (prominence != null) {
 			// Evaluate prominence condition
-			PairOfDoubleOrDArr pminmax = UnpackConditionArgs.call(NumOrTwoSeqOrNdArr.first(prominence), x, peaks);
+			PairOfDoubleOrDArr pminmax = UnpackConditionArgs.call(prominence, x, peaks);
 			boolean[] keep = SelectByProperty.call((double[]) properties.get("prominences"), pminmax.getFirst(), pminmax.getSecond());
 			peaks = Filter.filterArray(peaks, keep);
 			Filter.filterProperties(properties, keep);

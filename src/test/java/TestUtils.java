@@ -1,7 +1,13 @@
 import com.fa993.function.FindPeaksOutput;
 
+import java.io.*;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestUtils {
 
@@ -95,6 +101,35 @@ public class TestUtils {
 			return false;
 		}
 		return true;
+	}
+
+	public static List<String> runAgainstShellScript(String scriptName, int iters, Function<Integer, List<String>> producer) throws IOException, InterruptedException {
+		File input = new File(System.getProperty("user.dir") + "/input.txt");
+		File output = new File(System.getProperty("user.dir") + "/output.txt");
+		output.delete();
+		input.delete();
+		input.createNewFile();
+		input.deleteOnExit();
+		output.deleteOnExit();
+		BufferedWriter bw = new BufferedWriter(new FileWriter(input));
+		for(int i = 0; i < iters; i++) {
+			List<String> l0 = producer.apply(i);
+			for(String l : l0) {
+				bw.write(l);
+				bw.newLine();
+			}
+		}
+		bw.close();
+		ProcessBuilder processBuilder = new ProcessBuilder(System.getProperty("user.dir") + "/" + scriptName);
+		processBuilder.redirectOutput(output);
+		Process process = processBuilder.start();
+		int exitCode = process.waitFor();
+		assertEquals(0, exitCode);
+		BufferedReader br = new BufferedReader(new FileReader(output));
+		List<String> lst = br.lines().collect(Collectors.toList());
+		input.delete();
+		output.delete();
+		return lst;
 	}
 
 }

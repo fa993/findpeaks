@@ -9,142 +9,110 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SelectByPropertyTest {
 
-	private LocalMaximaJIU way1 = new LocalMaximaJIU();
+	private final LocalMaximaJIU way1 = new LocalMaximaJIU();
 
 	@Test
 	public void testForNumber() throws IOException, InterruptedException {
 		int iters = 1000;
+		int count = 1000;
 		int[][] outsJIU = new int[iters][];
-		File input = new File(System.getProperty("user.dir") + "/input.txt");
-		File output = new File(System.getProperty("user.dir") + "/output.txt");
-		output.delete();
-		input.delete();
-		input.createNewFile();
-		input.deleteOnExit();
-		output.deleteOnExit();
-		BufferedWriter bw = new BufferedWriter(new FileWriter(input));
 		boolean[][] ans = new boolean[iters][];
-		for(int i = 0; i < iters; i++) {
-			double[] points = TestUtils.getRandomPoints(1000);
-			double[] ptrs = Arrays.stream(TestUtils.getRandomPoints(2)).map(t -> t * 50).toArray();
+		List<String> lst = TestUtils.runAgainstShellScript("test_select_by_property.sh", iters, (i) -> {
+			double[] points = TestUtils.getRandomPoints(count);
+			double[] ptrs = TestUtils.getRandomPoints(2);
 			outsJIU[i] = way1.localMaxima1D(points)[0];
 			ans[i] = SelectByProperty.call(outsJIU[i], Either.OfTwo.first(ptrs[0]), Either.OfTwo.first(ptrs[1]));
-			bw.write(Arrays.stream(outsJIU[i]).mapToObj(Integer::toString).collect(Collectors.joining(" ")));
-			bw.newLine();
-			bw.write(Double.toString(ptrs[0]));
-			bw.newLine();
-			bw.write(Double.toString(ptrs[1]));
-			bw.newLine();
-		}
-		bw.close();
-		ProcessBuilder processBuilder = new ProcessBuilder(System.getProperty("user.dir") + "/test_select_by_property.sh");
-		processBuilder.redirectOutput(output);
-		Process process = processBuilder.start();
-		int exitCode = process.waitFor();
-		assertEquals(0, exitCode);
-		BufferedReader br = new BufferedReader(new FileReader(output));
-		List<String> lst = br.lines().collect(Collectors.toList());
+			return List.of(
+					Arrays.stream(outsJIU[i]).mapToObj(Integer::toString).collect(Collectors.joining(" ")),
+					Double.toString(ptrs[0]),
+					Double.toString(ptrs[1])
+			);
+		});
 		boolean[][] pyex = new boolean[iters][];
 		int ind = 0;
-		for(int i = 0; i < lst.size(); i++) {
-			String mids = lst.get(i);
+		for (String mids : lst) {
 			pyex[ind++] = TestUtils.parsePythonArrayToBoolean(mids);
 		}
 		assertArrayEquals(pyex, ans);
-		input.delete();
-		output.delete();
 	}
 
 	@Test
 	public void testForOneOpen() throws IOException, InterruptedException {
 		int iters = 1000;
+		int count = 1000;
 		int[][] outsJIU = new int[iters][];
-		File input = new File(System.getProperty("user.dir") + "/input.txt");
-		File output = new File(System.getProperty("user.dir") + "/output.txt");
-		output.delete();
-		input.delete();
-		input.createNewFile();
-		input.deleteOnExit();
-		output.deleteOnExit();
-		BufferedWriter bw = new BufferedWriter(new FileWriter(input));
 		boolean[][] ans = new boolean[iters][];
-		for(int i = 0; i < iters; i++) {
-			double[] points = TestUtils.getRandomPoints(1000);
-			double[] ptrs = Arrays.stream(TestUtils.getRandomPoints(2)).map(t -> t * 50).toArray();
+		List<String> lst = TestUtils.runAgainstShellScript("test_select_by_property.sh", iters, (i) -> {
+			double[] points = TestUtils.getRandomPoints(count);
+			double[] ptrs = TestUtils.getRandomPoints(2);
 			outsJIU[i] = way1.localMaxima1D(points)[0];
 			ans[i] = SelectByProperty.call(outsJIU[i], null, Either.OfTwo.first(ptrs[1]));
-			bw.write(Arrays.stream(outsJIU[i]).mapToObj(Integer::toString).collect(Collectors.joining(" ")));
-			bw.newLine();
-			bw.write("");
-			bw.newLine();
-			bw.write(Double.toString(ptrs[1]));
-			bw.newLine();
-		}
-		bw.close();
-		ProcessBuilder processBuilder = new ProcessBuilder(System.getProperty("user.dir") + "/test_select_by_property.sh");
-		processBuilder.redirectOutput(output);
-		Process process = processBuilder.start();
-		int exitCode = process.waitFor();
-		assertEquals(0, exitCode);
-		BufferedReader br = new BufferedReader(new FileReader(output));
-		List<String> lst = br.lines().collect(Collectors.toList());
+			return List.of(
+					Arrays.stream(outsJIU[i]).mapToObj(Integer::toString).collect(Collectors.joining(" ")),
+					"",
+					Double.toString(ptrs[1])
+			);
+		});
 		boolean[][] pyex = new boolean[iters][];
 		int ind = 0;
-		for(int i = 0; i < lst.size(); i++) {
-			String mids = lst.get(i);
+		for (String mids : lst) {
 			pyex[ind++] = TestUtils.parsePythonArrayToBoolean(mids);
 		}
 		assertArrayEquals(pyex, ans);
-		input.delete();
-		output.delete();
 	}
 
 	@Test
 	public void testForOtherOpen() throws IOException, InterruptedException {
 		int iters = 1000;
+		int count = 1000;
 		int[][] outsJIU = new int[iters][];
-		File input = new File(System.getProperty("user.dir") + "/input.txt");
-		File output = new File(System.getProperty("user.dir") + "/output.txt");
-		output.delete();
-		input.delete();
-		input.createNewFile();
-		input.deleteOnExit();
-		output.deleteOnExit();
-		BufferedWriter bw = new BufferedWriter(new FileWriter(input));
 		boolean[][] ans = new boolean[iters][];
-		for(int i = 0; i < iters; i++) {
-			double[] points = TestUtils.getRandomPoints(1000);
-			double[] ptrs = Arrays.stream(TestUtils.getRandomPoints(2)).map(t -> t * 50).toArray();
+		List<String> lst = TestUtils.runAgainstShellScript("test_select_by_property.sh", iters, (i) -> {
+			double[] points = TestUtils.getRandomPoints(count);
+			double[] ptrs = TestUtils.getRandomPoints(2);
 			outsJIU[i] = way1.localMaxima1D(points)[0];
 			ans[i] = SelectByProperty.call(outsJIU[i], Either.OfTwo.first(ptrs[0]), null);
-			bw.write(Arrays.stream(outsJIU[i]).mapToObj(Integer::toString).collect(Collectors.joining(" ")));
-			bw.newLine();
-			bw.write(Double.toString(ptrs[0]));
-			bw.newLine();
-			bw.write("");
-			bw.newLine();
-		}
-		bw.close();
-		ProcessBuilder processBuilder = new ProcessBuilder(System.getProperty("user.dir") + "/test_select_by_property.sh");
-		processBuilder.redirectOutput(output);
-		Process process = processBuilder.start();
-		int exitCode = process.waitFor();
-		assertEquals(0, exitCode);
-		BufferedReader br = new BufferedReader(new FileReader(output));
-		List<String> lst = br.lines().collect(Collectors.toList());
+			return List.of(
+					Arrays.stream(outsJIU[i]).mapToObj(Integer::toString).collect(Collectors.joining(" ")),
+					Double.toString(ptrs[0]),
+					""
+			);
+		});
 		boolean[][] pyex = new boolean[iters][];
 		int ind = 0;
-		for(int i = 0; i < lst.size(); i++) {
-			String mids = lst.get(i);
+		for (String mids : lst) {
 			pyex[ind++] = TestUtils.parsePythonArrayToBoolean(mids);
 		}
 		assertArrayEquals(pyex, ans);
-		input.delete();
-		output.delete();
+	}
+
+	@Test
+	public void testForFullBothClose() throws IOException, InterruptedException {
+		int iters = 1000;
+		int count = 1000;
+		int[][] outsJIU = new int[iters][];
+		boolean[][] ans = new boolean[iters][];
+		List<String> lst = TestUtils.runAgainstShellScript("test_select_by_property.sh", iters, (i) -> {
+			double[] points = TestUtils.getRandomPoints(count);
+			outsJIU[i] = way1.localMaxima1D(points)[0];
+			double[] ptrs = TestUtils.getRandomPoints(2 * outsJIU[i].length);
+			double[][] pttrs = TestUtils.reshape(ptrs, 2);
+			ans[i] = SelectByProperty.call(outsJIU[i], Either.OfTwo.second(pttrs[0]), Either.OfTwo.second(pttrs[1]));
+			return List.of(
+					Arrays.stream(outsJIU[i]).mapToObj(Integer::toString).collect(Collectors.joining(" ")),
+					Arrays.stream(pttrs[0]).mapToObj(Double::toString).collect(Collectors.joining(" ")),
+					Arrays.stream(pttrs[1]).mapToObj(Double::toString).collect(Collectors.joining(" "))
+			);
+		});
+		boolean[][] pyex = new boolean[iters][];
+		int ind = 0;
+		for (String mids : lst) {
+			pyex[ind++] = TestUtils.parsePythonArrayToBoolean(mids);
+		}
+		assertArrayEquals(pyex, ans);
 	}
 
 }

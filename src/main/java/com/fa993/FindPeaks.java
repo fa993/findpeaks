@@ -4,10 +4,7 @@ import com.fa993.types.FindPeaksOutput;
 import com.fa993.types.SelectThresholdOutput;
 import com.fa993.types.supertype.NumOrTwoSeqOrNdArr;
 import com.fa993.types.supertype.PairOfDoubleOrDArr;
-import com.fa993.utils.Filter;
-import com.fa993.utils.SelectByPeakThreshold;
-import com.fa993.utils.SelectByProperty;
-import com.fa993.utils.UnpackConditionArgs;
+import com.fa993.utils.*;
 import com.fa993.variations.LocalMaxima;
 import com.fa993.variations.LocalMaximaJIU;
 
@@ -41,7 +38,7 @@ public class FindPeaks {
 	 *
 	 * @see <a href="https://github.com/scipy/scipy/blob/92d2a8592782ee19a1161d0bf3fc2241ba78bb63/scipy/signal/_peak_finding.py#L729">FindPeaks Source</a>
 	 */
-	public FindPeaksOutput call(double[] x, NumOrTwoSeqOrNdArr height, NumOrTwoSeqOrNdArr threshold, Integer distance,
+	public FindPeaksOutput call(double[] x, NumOrTwoSeqOrNdArr height, NumOrTwoSeqOrNdArr threshold, Double distance,
 									   Double prominence, Double width, Integer wlen, Double relHeight,
 									   NumOrTwoSeqOrNdArr plateauSize) {
 
@@ -98,13 +95,18 @@ public class FindPeaks {
 			properties.put("right_thresholds", thresholdResults.getRightThresholds());
 			Filter.filterProperties(properties, thresholdResults.getKeep());
 		}
-//
-//		if (distance != null) {
-//			// Evaluate distance condition
-//			int[] keep = selectByPeakDistance(peaks, x, distance);
-//			peaks = filterArray(peaks, keep);
-//			properties = filterProperties(properties, keep);
-//		}
+
+		if (distance != null) {
+			// Evaluate distance condition
+			// this function is tested by the global find peaks test, granular testing on this level involves too much effort compared to it's worth
+			double[] peakHeights = new double[peaks.length];
+			for (int i = 0; i < peaks.length; i++) {
+				peakHeights[i] = x[peaks[i]];
+			}
+			boolean[] keep = SelectByPeakDistance.call(peaks, peakHeights, distance);
+			peaks = Filter.filterArray(peaks, keep);
+			Filter.filterProperties(properties, keep);
+		}
 //
 //		if (prominence != null || width != null) {
 //			// Calculate prominence (required for both conditions)

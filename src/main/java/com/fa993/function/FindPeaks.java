@@ -1,13 +1,11 @@
 package com.fa993.function;
 
-import com.fa993.function.supertype.Either;
 import com.fa993.function.supertype.NumOrTwoSeqOrNdArr;
-import com.fa993.function.supertype.Pair;
 import com.fa993.function.supertype.PairOfDoubleOrDArr;
+import com.fa993.function.utils.Filter;
 import com.fa993.function.utils.SelectByProperty;
 import com.fa993.function.utils.UnpackConditionArgs;
 import com.fa993.function.variations.LocalMaxima;
-import com.fa993.function.variations.LocalMaximaCC;
 import com.fa993.function.variations.LocalMaximaJIU;
 
 import java.util.HashMap;
@@ -40,52 +38,56 @@ public class FindPeaks {
 	 *
 	 * @see <a href="https://github.com/scipy/scipy/blob/92d2a8592782ee19a1161d0bf3fc2241ba78bb63/scipy/signal/_peak_finding.py#L729">FindPeaks Source</a>
 	 */
-//	public FindPeaksOutput call(double[] x, Double height, Double threshold, Integer distance,
-//									   Double prominence, Double width, Integer wlen, double relHeight,
-//									   NumOrTwoSeqOrNdArr plateauSize) {
-//
-//
-//		if (distance != null && distance < 1) {
-//			throw new IllegalArgumentException("`distance` must be greater or equal to 1");
-//		}
-//
-//		int[][] localMaxima = lm.localMaxima1D(x);
-//		int[] peaks = localMaxima[0];
-//		int[] leftEdges = localMaxima[1];
-//		int[] rightEdges = localMaxima[2];
-//		Map<String, double[]> properties = new HashMap<>();
-//
-//		if (plateauSize != null) {
-//			// Evaluate plateau size
-//			double[] plateauSizes = new double[rightEdges.length];
-//			for (int i = 0; i < rightEdges.length; i++) {
-//				plateauSizes[i] = rightEdges[i] - leftEdges[i] + 1;
-//			}
-//			PairOfDoubleOrDArr pminmax = UnpackConditionArgs.call(plateauSize, x, peaks);
-//			boolean[] keep = SelectByProperty.call(plateauSizes, pminmax.getFirst(), pminmax.getSecond());
-//			peaks = filterArray(peaks, keep);
-//			properties.put("plateau_sizes", plateauSizes);
-//			properties.put("left_edges", leftEdges);
-//			properties.put("right_edges", rightEdges);
-//			properties = filterProperties(properties, keep);
-//		}
-//
-//		if (height != null) {
-//			// Evaluate height condition
-//			double[] peakHeights = new double[peaks.length];
-//			for (int i = 0; i < peaks.length; i++) {
-//				peakHeights[i] = x[peaks[i]];
-//			}
-//			double[] hminmax = unpackConditionArgs(height, x, peaks);
-//			int[] keep = selectByProperty(peakHeights, hminmax[0], hminmax[1]);
-//			peaks = filterArray(peaks, keep);
-//			properties.put("peak_heights", peakHeights);
-//			properties = filterProperties(properties, keep);
-//		}
-//
+	public FindPeaksOutput call(double[] x, NumOrTwoSeqOrNdArr height, Double threshold, Integer distance,
+									   Double prominence, Double width, Integer wlen, Double relHeight,
+									   NumOrTwoSeqOrNdArr plateauSize) {
+
+
+		if (distance != null && distance < 1) {
+			throw new IllegalArgumentException("`distance` must be greater or equal to 1");
+		}
+
+		if (relHeight == null) {
+			relHeight = 0.5;
+		}
+
+		int[][] localMaxima = lm.localMaxima1D(x);
+		int[] peaks = localMaxima[0];
+		int[] leftEdges = localMaxima[1];
+		int[] rightEdges = localMaxima[2];
+		Map<String, Object> properties = new HashMap<>();
+
+		if (plateauSize != null) {
+			// Evaluate plateau size
+			int[] plateauSizes = new int[rightEdges.length];
+			for (int i = 0; i < rightEdges.length; i++) {
+				plateauSizes[i] = rightEdges[i] - leftEdges[i] + 1;
+			}
+			PairOfDoubleOrDArr pminmax = UnpackConditionArgs.call(plateauSize, x, peaks);
+			boolean[] keep = SelectByProperty.call(plateauSizes, pminmax.getFirst(), pminmax.getSecond());
+			peaks = Filter.filterArray(peaks, keep);
+			properties.put("plateau_sizes", plateauSizes);
+			properties.put("left_edges", leftEdges);
+			properties.put("right_edges", rightEdges);
+			Filter.filterProperties(properties, keep);
+		}
+
+		if (height != null) {
+			// Evaluate height condition
+			double[] peakHeights = new double[peaks.length];
+			for (int i = 0; i < peaks.length; i++) {
+				peakHeights[i] = x[peaks[i]];
+			}
+			PairOfDoubleOrDArr hminmax = UnpackConditionArgs.call(height, x, peaks);
+			boolean[] keep = SelectByProperty.call(peakHeights, hminmax.getFirst(), hminmax.getSecond());
+			peaks = Filter.filterArray(peaks, keep);
+			properties.put("peak_heights", peakHeights);
+			Filter.filterProperties(properties, keep);
+		}
+
 //		if (threshold != null) {
 //			// Evaluate threshold condition
-//			double[] tminmax = unpackConditionArgs(threshold, x, peaks);
+//			double[] tminmax = UnpackConditionArgs.call(threshold, x, peaks);
 //			Object[] thresholdResults = selectByPeakThreshold(x, peaks, tminmax[0], tminmax[1]);
 //			int[] keep = (int[]) thresholdResults[0];
 //			double[] leftThresholds = (double[]) thresholdResults[1];
@@ -114,8 +116,8 @@ public class FindPeaks {
 //
 //		if (prominence != null) {
 //			// Evaluate prominence condition
-//			double[] pminmax = unpackConditionArgs(prominence, x, peaks);
-//			int[] keep = selectByProperty(properties.get("prominences"), pminmax[0], pminmax[1]);
+//			double[] pminmax = UnpackConditionArgs.call(prominence, x, peaks);
+//			int[] keep = SelectByProperty.call(properties.get("prominences"), pminmax[0], pminmax[1]);
 //			peaks = filterArray(peaks, keep);
 //			properties = filterProperties(properties, keep);
 //		}
@@ -129,13 +131,13 @@ public class FindPeaks {
 //			properties.put("left_ips", widths[2]);
 //			properties.put("right_ips", widths[3]);
 //			// Evaluate width condition
-//			double[] wminmax = unpackConditionArgs(width, x, peaks);
+//			double[] wminmax = UnpackConditionArgs.call(width, x, peaks);
 //			int[] keep = selectByProperty(properties.get("widths"), wminmax[0], wminmax[1]);
 //			peaks = filterArray(peaks, keep);
 //			properties = filterProperties(properties, keep);
 //		}
-//
-//		return new Object[]{peaks, properties};
-//	}
+
+		return new FindPeaksOutput(peaks, properties);
+	}
 
 }

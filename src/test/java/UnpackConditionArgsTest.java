@@ -31,7 +31,7 @@ public class UnpackConditionArgsTest {
 		Double[][] ans = new Double[iters][];
 		for(int i = 0; i < iters; i++) {
 			double[] points = TestUtils.getRandomPoints(1000);
-			double ptr = (TestUtils.getRandomPoints(1)[0] * 50);
+			double ptr = TestUtils.getRandomPoints(1)[0];
 			outsJIU[i] = way1.localMaxima1D(points)[0];
 			PairOfDoubleOrDArr out = UnpackConditionArgs.call(NumOrTwoSeqOrNdArr.first(ptr), points, outsJIU[i]);
 			ans[i] = new Double []{out.getFirst().getFirst(), out.getSecond() == null ? null : out.getSecond().getFirst()};
@@ -76,7 +76,7 @@ public class UnpackConditionArgsTest {
 		Double[][] ans = new Double[iters][];
 		for(int i = 0; i < iters; i++) {
 			double[] points = TestUtils.getRandomPoints(1000);
-			double[] ptrs = Arrays.stream(TestUtils.getRandomPoints(2)).map(t -> t * 50).toArray();
+			double[] ptrs = TestUtils.getRandomPoints(2);
 			outsJIU[i] = way1.localMaxima1D(points)[0];
 			PairOfDoubleOrDArr out = UnpackConditionArgs.call(NumOrTwoSeqOrNdArr.second(ptrs), points, outsJIU[i]);
 			ans[i] = new Double []{out.getFirst().getFirst(), out.getSecond() == null ? null : out.getSecond().getFirst()};
@@ -121,7 +121,7 @@ public class UnpackConditionArgsTest {
 		double[][][] ans = new double[iters][][];
 		for(int i = 0; i < iters; i++) {
 			double[] points = TestUtils.getRandomPoints(1000);
-			double[] ptrs = Arrays.stream(TestUtils.getRandomPoints(points.length * 2)).map(t -> t * 50).toArray();
+			double[] ptrs = TestUtils.getRandomPoints(points.length * 2);
 			double[][] pttrs = TestUtils.reshape(ptrs, 2);
 			outsJIU[i] = way1.localMaxima1D(points)[0];
 			PairOfDoubleOrDArr out = UnpackConditionArgs.call(NumOrTwoSeqOrNdArr.third(pttrs), points, outsJIU[i]);

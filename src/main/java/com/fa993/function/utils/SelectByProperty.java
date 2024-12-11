@@ -75,6 +75,63 @@ public class SelectByProperty {
 		return keep;
 	}
 
+	public static boolean[] call(double[] peakProperties, Either.OfTwo<Double, double[]> pmin, Either.OfTwo<Double, double[]> pmax) {
+		double[] pminArray = (pmin == null) ? null : new double[peakProperties.length];
+		double[] pmaxArray = (pmax == null) ? null : new double[peakProperties.length];
+
+		if(pmin != null) {
+			if (pmin.getSelector().isFirst()) {
+				Arrays.fill(pminArray, pmin.getFirst());
+			} else if (pmin.getSelector().isSecond()) {
+				pminArray = pmin.getSecond();
+			} else {
+				throw new IllegalArgumentException("pmin selector state is unknown");
+			}
+		}
+
+		if(pmax != null) {
+			if (pmax.getSelector().isFirst()) {
+				Arrays.fill(pmaxArray, pmax.getFirst());
+			} else if(pmax.getSelector().isSecond()){
+				pmaxArray = pmax.getSecond();
+			} else {
+				throw new IllegalArgumentException("pmax selector state is unknown");
+			}
+		}
+
+		int n = peakProperties.length;
+		boolean[] keep = new boolean[n];
+		Arrays.fill(keep, true);
+
+		// Validate input dimensions for pmin and pmax if they are arrays
+		if (pminArray != null && pminArray.length != n) {
+			throw new IllegalArgumentException("pmin array must be the same length as peakProperties");
+		}
+		if (pmaxArray != null && pmaxArray.length != n) {
+			throw new IllegalArgumentException("pmax array must be the same length as peakProperties");
+		}
+
+		// Apply pmin boundary
+		if (pminArray != null) {
+			for (int i = 0; i < n; i++) {
+				if (peakProperties[i] < pminArray[i]) {
+					keep[i] = false;
+				}
+			}
+		}
+
+		// Apply pmax boundary
+		if (pmaxArray != null) {
+			for (int i = 0; i < n; i++) {
+				if (peakProperties[i] > pmaxArray[i]) {
+					keep[i] = false;
+				}
+			}
+		}
+
+		return keep;
+	}
+
 //	/**
 //	 * Overloaded method for scalar pmin and pmax values.
 //	 */

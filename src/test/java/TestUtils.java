@@ -1,8 +1,7 @@
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import com.fa993.function.FindPeaksOutput;
+
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class TestUtils {
 
@@ -18,6 +17,10 @@ public class TestUtils {
 
 	public static Integer[] parsePythonArrayToInteger(String line) {
 		return Arrays.stream(line.substring(1, line.length() - 1).split(",")).map(String::trim).map(t -> "None".equals(t) ? null: Integer.valueOf(t)).collect(Collectors.toList()).toArray(new Integer[]{});
+	}
+
+	public static int[] parseSpaceSeparatedPythonIntArray(String line) {
+		return Arrays.stream(line.split(" ")).filter(t -> !t.isEmpty()).map(String::trim).mapToInt(Integer::valueOf).toArray();
 	}
 
 	public static Double[] parsePythonArrayToDouble(String line) {
@@ -42,6 +45,56 @@ public class TestUtils {
 			b2[i] = asd.get(i);
 		}
 		return b2;
+	}
+
+	public static FindPeaksOutput parseFindPeaksOutputFromLines(List<String> lines) {
+		// at least one entry
+		int[] peaks = parseSpaceSeparatedPythonIntArray(lines.get(0));
+		Map<String, Object> props = new HashMap<>();
+		// format is first word is key, rest all is vals
+		lines.stream().skip(1).forEach(t -> {
+			String[] items = t.split(" ");
+			String key = items[0];
+			if(items.length == 1) {
+				props.put(key, new Object[]{});
+				return;
+			}
+			String pot = items[1];
+			if (isInteger(pot)) {
+				props.put(key, Arrays.stream(items).skip(1).mapToInt(Integer::parseInt).toArray());
+			} else if (isDouble(pot)) {
+				props.put(key, Arrays.stream(items).skip(1).mapToDouble(Double::parseDouble).toArray());
+			} else {
+				props.put(key, Arrays.stream(items).skip(1));
+			}
+		});
+		return new FindPeaksOutput(peaks, props);
+	}
+
+	public static boolean isDouble(String num) {
+		try
+		{
+			Double.parseDouble(num.trim());
+		}
+		catch(NumberFormatException e)
+		{
+			// not a double
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean isInteger(String num) {
+		try
+		{
+			Integer.parseInt(num.trim());
+		}
+		catch(NumberFormatException e)
+		{
+			// not a double
+			return false;
+		}
+		return true;
 	}
 
 }

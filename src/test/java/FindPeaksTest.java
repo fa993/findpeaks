@@ -447,4 +447,140 @@ public class FindPeaksTest {
 		assertArrayEquals(overloadOuts, pyex);
 	}
 
+	@Test
+	public void testWithHeightAndPlateauAndDistanceAndProminence() throws IOException, InterruptedException {
+		int iters = 1000;
+		int count = 1000;
+		FindPeaksOutput[] overloadOuts = new FindPeaksOutput[iters];
+		List<String> lst = TestUtils.runAgainstShellScript("test_find_peaks.sh", iters, (i) -> {
+			double[] rndH = TestUtils.getRandomPoints(4);
+			double dis = (TestUtils.getRandomPoints(1)[0] * 10) + 1;
+			double[] points = TestUtils.getRandomPoints(count);
+			overloadOuts[i] = fp.call(points, NumOrTwoSeqOrNdArr.first(rndH[0]), NumOrTwoSeqOrNdArr.first(rndH[1]), dis, NumOrTwoSeqOrNdArr.first(rndH[2]), null, null, null, NumOrTwoSeqOrNdArr.first(rndH[3]));
+			List<String> smLs = Stream.generate(() -> "").limit(9).collect(Collectors.toList());
+			smLs.set(0, Arrays.stream(points).mapToObj(Double::toString).collect(Collectors.joining(" ")));
+			smLs.set(1, Double.toString(rndH[0]));
+			smLs.set(2, Double.toString(rndH[1]));
+			smLs.set(3, Double.toString(dis));
+			smLs.set(4, Double.toString(rndH[2]));
+			smLs.set(8, Double.toString(rndH[3]));
+			return smLs;
+		});
+		FindPeaksOutput[] pyex = new FindPeaksOutput[iters];
+		int ind = 0;
+		int current = 0;
+		while (current < lst.size()){
+			int lC = Integer.parseInt(lst.get(current).trim());
+			pyex[ind++] = TestUtils.parseFindPeaksOutputFromLines(lst.subList(current + 1, current + lC + 1));
+			current += lC + 1;
+		}
+		assertArrayEquals(overloadOuts, pyex);
+	}
+
+	@Test
+	public void testWithWidths() throws IOException, InterruptedException {
+		int iters = 1000;
+		int count = 1000;
+		FindPeaksOutput[] overloadOuts = new FindPeaksOutput[iters];
+		List<String> lst = TestUtils.runAgainstShellScript("test_find_peaks.sh", iters, (i) -> {
+			double w = TestUtils.getRandomPoints(1)[0];
+			double[] points = TestUtils.getRandomPoints(count);
+			overloadOuts[i] = fp.call(points, null, null, null, null, NumOrTwoSeqOrNdArr.first(w), null, null, null);
+			List<String> smLs = Stream.generate(() -> "").limit(9).collect(Collectors.toList());
+			smLs.set(0, Arrays.stream(points).mapToObj(Double::toString).collect(Collectors.joining(" ")));
+			smLs.set(5, Double.toString(w));
+			return smLs;
+		});
+		FindPeaksOutput[] pyex = new FindPeaksOutput[iters];
+		int ind = 0;
+		int current = 0;
+		while (current < lst.size()){
+			int lC = Integer.parseInt(lst.get(current).trim());
+			pyex[ind++] = TestUtils.parseFindPeaksOutputFromLines(lst.subList(current + 1, current + lC + 1));
+			current += lC + 1;
+		}
+		assertArrayEquals(overloadOuts, pyex);
+	}
+
+	@Test
+	public void testWithWidthsSeq() throws IOException, InterruptedException {
+		int iters = 1000;
+		int count = 1000;
+		FindPeaksOutput[] overloadOuts = new FindPeaksOutput[iters];
+		List<String> lst = TestUtils.runAgainstShellScript("test_find_peaks.sh", iters, (i) -> {
+			double[] w = TestUtils.getRandomPoints(2);
+			double[] points = TestUtils.getRandomPoints(count);
+			overloadOuts[i] = fp.call(points, null, null, null, null, NumOrTwoSeqOrNdArr.second(w), null, null, null);
+			List<String> smLs = Stream.generate(() -> "").limit(9).collect(Collectors.toList());
+			smLs.set(0, Arrays.stream(points).mapToObj(Double::toString).collect(Collectors.joining(" ")));
+			smLs.set(5, Arrays.stream(w).mapToObj(Double::toString).collect(Collectors.joining(" ")));
+			return smLs;
+		});
+		FindPeaksOutput[] pyex = new FindPeaksOutput[iters];
+		int ind = 0;
+		int current = 0;
+		while (current < lst.size()){
+			int lC = Integer.parseInt(lst.get(current).trim());
+			pyex[ind++] = TestUtils.parseFindPeaksOutputFromLines(lst.subList(current + 1, current + lC + 1));
+			current += lC + 1;
+		}
+		assertArrayEquals(overloadOuts, pyex);
+	}
+
+	@Test
+	public void testWithWidthsFull() throws IOException, InterruptedException {
+		int iters = 1000;
+		int count = 1000;
+		FindPeaksOutput[] overloadOuts = new FindPeaksOutput[iters];
+		List<String> lst = TestUtils.runAgainstShellScript("test_find_peaks.sh", iters, (i) -> {
+			double[] w = TestUtils.getRandomPoints(2 * count);
+			double[] points = TestUtils.getRandomPoints(count);
+			overloadOuts[i] = fp.call(points, null, null, null, null, NumOrTwoSeqOrNdArr.third(TestUtils.reshape(w, 2)), null, null, null);
+			List<String> smLs = Stream.generate(() -> "").limit(9).collect(Collectors.toList());
+			smLs.set(0, Arrays.stream(points).mapToObj(Double::toString).collect(Collectors.joining(" ")));
+			smLs.set(5, Arrays.stream(w).mapToObj(Double::toString).collect(Collectors.joining(" ")));
+			return smLs;
+		});
+		FindPeaksOutput[] pyex = new FindPeaksOutput[iters];
+		int ind = 0;
+		int current = 0;
+		while (current < lst.size()){
+			int lC = Integer.parseInt(lst.get(current).trim());
+			pyex[ind++] = TestUtils.parseFindPeaksOutputFromLines(lst.subList(current + 1, current + lC + 1));
+			current += lC + 1;
+		}
+		assertArrayEquals(overloadOuts, pyex);
+	}
+
+	@Test
+	public void testWithHeightAndPlateauAndDistanceAndProminenceAndWidth() throws IOException, InterruptedException {
+		int iters = 1000;
+		int count = 1000;
+		FindPeaksOutput[] overloadOuts = new FindPeaksOutput[iters];
+		List<String> lst = TestUtils.runAgainstShellScript("test_find_peaks.sh", iters, (i) -> {
+			double[] rndH = TestUtils.getRandomPoints(5);
+			double dis = (TestUtils.getRandomPoints(1)[0] * 10) + 1;
+			double[] points = TestUtils.getRandomPoints(count);
+			overloadOuts[i] = fp.call(points, NumOrTwoSeqOrNdArr.first(rndH[0]), NumOrTwoSeqOrNdArr.first(rndH[1]), dis, NumOrTwoSeqOrNdArr.first(rndH[2]), NumOrTwoSeqOrNdArr.first(rndH[3]), null, null, NumOrTwoSeqOrNdArr.first(rndH[4]));
+			List<String> smLs = Stream.generate(() -> "").limit(9).collect(Collectors.toList());
+			smLs.set(0, Arrays.stream(points).mapToObj(Double::toString).collect(Collectors.joining(" ")));
+			smLs.set(1, Double.toString(rndH[0]));
+			smLs.set(2, Double.toString(rndH[1]));
+			smLs.set(3, Double.toString(dis));
+			smLs.set(4, Double.toString(rndH[2]));
+			smLs.set(5, Double.toString(rndH[3]));
+			smLs.set(8, Double.toString(rndH[4]));
+			return smLs;
+		});
+		FindPeaksOutput[] pyex = new FindPeaksOutput[iters];
+		int ind = 0;
+		int current = 0;
+		while (current < lst.size()){
+			int lC = Integer.parseInt(lst.get(current).trim());
+			pyex[ind++] = TestUtils.parseFindPeaksOutputFromLines(lst.subList(current + 1, current + lC + 1));
+			current += lC + 1;
+		}
+		assertArrayEquals(overloadOuts, pyex);
+	}
+
 }

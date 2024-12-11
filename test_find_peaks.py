@@ -41,6 +41,8 @@ for gr in grs:
     width = parse_into_type(list(map(float, gr[5].split())), x)
     wlen = parse_into_type(list(map(int, gr[6].split())), x)
     rel_height = parse_into_type(list(map(float, gr[7].split())), x)
+    if rel_height is None:
+        rel_height = 0.5 # default
     plateau_size = parse_into_type(list(map(float, gr[8].split())), x)
 
     peaks, properties = find_peaks(x, height=height, threshold=threshold, distance=distance, prominence=prominence, width=width, wlen=wlen, rel_height=rel_height, plateau_size=plateau_size)

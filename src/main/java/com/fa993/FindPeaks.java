@@ -1,9 +1,6 @@
 package com.fa993;
 
-import com.fa993.types.FindPeaksOutput;
-import com.fa993.types.LocalMaximaOutput;
-import com.fa993.types.PeakProminenceOutput;
-import com.fa993.types.SelectThresholdOutput;
+import com.fa993.types.*;
 import com.fa993.types.supertype.NumOrTwoSeqOrNdArr;
 import com.fa993.types.supertype.PairOfDoubleOrDArr;
 import com.fa993.utils.*;
@@ -23,7 +20,6 @@ public class FindPeaks {
 		this.lm = impl;
 	}
 
-
 	/**
 	 *
 	 * @param points the points to find peaks for
@@ -41,7 +37,7 @@ public class FindPeaks {
 	 * @see <a href="https://github.com/scipy/scipy/blob/92d2a8592782ee19a1161d0bf3fc2241ba78bb63/scipy/signal/_peak_finding.py#L729">FindPeaks Source</a>
 	 */
 	public FindPeaksOutput call(double[] x, NumOrTwoSeqOrNdArr height, NumOrTwoSeqOrNdArr threshold, Double distance,
-								NumOrTwoSeqOrNdArr prominence, Double width, Integer wlen, Double relHeight,
+								NumOrTwoSeqOrNdArr prominence, NumOrTwoSeqOrNdArr width, Integer wlen, Double relHeight,
 								NumOrTwoSeqOrNdArr plateauSize) {
 
 
@@ -126,21 +122,21 @@ public class FindPeaks {
 			peaks = Filter.filterArray(peaks, keep);
 			Filter.filterProperties(properties, keep);
 		}
-//
-//		if (width != null) {
-//			// Calculate widths
-//			double[][] widths = peakWidths(x, peaks, relHeight, properties.get("prominences"),
-//					properties.get("left_bases"), properties.get("right_bases"));
-//			properties.put("widths", widths[0]);
-//			properties.put("width_heights", widths[1]);
-//			properties.put("left_ips", widths[2]);
-//			properties.put("right_ips", widths[3]);
-//			// Evaluate width condition
-//			double[] wminmax = UnpackConditionArgs.call(width, x, peaks);
-//			int[] keep = selectByProperty(properties.get("widths"), wminmax[0], wminmax[1]);
-//			peaks = filterArray(peaks, keep);
-//			properties = filterProperties(properties, keep);
-//		}
+
+		if (width != null) {
+			// Calculate widths
+			PeakWidthsOutput widths = PeakWidth.call(x, peaks, relHeight, (double[])properties.get("prominences"),
+					(int[]) properties.get("left_bases"), (int[]) properties.get("right_bases"));
+			properties.put("widths", widths.getWidths());
+			properties.put("width_heights", widths.getWidthHeights());
+			properties.put("left_ips", widths.getLeftIps());
+			properties.put("right_ips", widths.getRightIps());
+			// Evaluate width condition
+			PairOfDoubleOrDArr wminmax = UnpackConditionArgs.call(width, x, peaks);
+			boolean[] keep = SelectByProperty.call((double[]) properties.get("widths"), wminmax.getFirst(), wminmax.getSecond());
+			peaks = Filter.filterArray(peaks, keep);
+			Filter.filterProperties(properties, keep);
+		}
 
 		return new FindPeaksOutput(peaks, properties);
 	}

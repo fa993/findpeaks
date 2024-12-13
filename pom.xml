@@ -37,14 +37,6 @@
             <version>1.18.36</version>
             <scope>provided</scope>
         </dependency>
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/jep/jep &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>jep</groupId>-->
-<!--            <artifactId>jep</artifactId>-->
-<!--            <version>4.2.1</version>-->
-<!--            <scope>system</scope>-->
-<!--            <systemPath>${project.basedir}/jars/jep-4.2.1.jar</systemPath>-->
-<!--        </dependency>-->
     </dependencies>
 
     <build>

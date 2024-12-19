@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.fa993"},{"l":"com.fa993.types"},{"l":"com.fa993.types.supertype"},{"l":"com.fa993.utils"},{"l":"com.fa993.variations"}]

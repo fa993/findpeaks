@@ -2,8 +2,33 @@ package com.fa993.utils;
 
 import com.fa993.types.PeakWidthsOutput;
 
+/**
+ * Utility class for calculating the widths of peaks in a given dataset.
+ * The calculations are based on the prominence data and relative height.
+ */
 public class PeakWidth {
 
+	/**
+	 * Calculates the widths of peaks in the input data array using prominence information
+	 * and a specified relative height. The method determines the left and right intersection
+	 * points of the peaks at the specified height and calculates the width for each peak.
+	 *
+	 * @param x           the input data array containing the signal values.
+	 * @param peaks       the indices of the peaks in the signal.
+	 * @param relHeight   the relative height (a fraction of the prominence) at which to calculate widths.
+	 * @param prominences the prominence values corresponding to the peaks.
+	 * @param leftBases   the indices of the left bases for the peaks.
+	 * @param rightBases  the indices of the right bases for the peaks.
+	 * @return a {@link PeakWidthsOutput} object containing the calculated widths,
+	 *         intersection points, and heights for the peaks.
+	 * @throws IllegalArgumentException if:
+	 *         <ul>
+	 *         <li>`relHeight` is less than 0</li>
+	 *         <li>The arrays `peaks`, `prominences`, `leftBases`, or `rightBases`
+	 *             do not have the same length</li>
+	 *         <li>The prominence data is invalid for any peak</li>
+	 *         </ul>
+	 */
 	public static PeakWidthsOutput call(double[] x, int[] peaks, double relHeight, double[] prominences, int[] leftBases, int[] rightBases) {
 		if (relHeight < 0) {
 			throw new IllegalArgumentException("`relHeight` must be greater or equal to 0.0");

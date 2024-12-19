@@ -1,4 +1,8 @@
-# To Setup Tests
+# FindPeaks
+
+A java-native implementation of scipy's findpeaks function.
+
+## To Setup Tests
 
 ```bash
 python3 -m venv forjep

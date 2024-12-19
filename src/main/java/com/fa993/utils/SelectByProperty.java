@@ -3,20 +3,35 @@ import com.fa993.types.supertype.Either;
 
 import java.util.Arrays;
 
-
+/**
+ * Utility class for evaluating properties of peaks against defined intervals.
+ * This class provides methods to filter peaks based on their properties conforming to specified
+ * minimum and maximum boundary conditions. These boundaries can be scalars or arrays.
+ */
 public class SelectByProperty {
 
 
 	/**
-	 * Evaluate where the generic property of peaks conforms to an interval.
+	 * Evaluates which peaks conform to a specified interval based on their properties.
+	 * The interval is defined by optional minimum and maximum boundaries.
 	 *
-	 * @param peakProperties An array with properties for each peak.
-	 * @param pmin           Lower interval boundary for `peakProperties`. `null` is interpreted as an open border.
-	 *                       It can be a single value or an array of the same length as `peakProperties`.
-	 * @param pmax           Upper interval boundary for `peakProperties`. `null` is interpreted as an open border.
-	 *                       It can be a single value or an array of the same length as `peakProperties`.
-	 * @return A boolean array evaluating to true where `peakProperties` conforms to the interval.
-	 * @throws IllegalArgumentException if `pmin` or `pmax` is an array of a different length than `peakProperties`.
+	 * @param peakProperties an array representing the properties of each peak.
+	 * @param pmin           the lower boundary of the interval. This can be:
+	 *                       <ul>
+	 *                         <li>A scalar value applied uniformly to all peaks.</li>
+	 *                         <li>An array of values, where each corresponds to a specific peak.</li>
+	 *                         <li>Null, indicating no lower boundary is applied.</li>
+	 *                       </ul>
+	 * @param pmax           the upper boundary of the interval. This can be:
+	 *                       <ul>
+	 *                         <li>A scalar value applied uniformly to all peaks.</li>
+	 *                         <li>An array of values, where each corresponds to a specific peak.</li>
+	 *                         <li>Null, indicating no upper boundary is applied.</li>
+	 *                       </ul>
+	 * @return a boolean array where each element evaluates to {@code true} if the corresponding peak conforms
+	 *         to the interval, and {@code false} otherwise.
+	 * @throws IllegalArgumentException if {@code pmin} or {@code pmax} is an array of a different length
+	 *                                  than {@code peakProperties}.
 	 */
 	public static boolean[] call(int[] peakProperties, Either.OfTwo<Double, double[]> pmin, Either.OfTwo<Double, double[]> pmax) {
 		double[] pminArray = (pmin == null) ? null : new double[peakProperties.length];
@@ -75,6 +90,29 @@ public class SelectByProperty {
 		return keep;
 	}
 
+	/**
+	 * Evaluates which peaks conform to a specified interval based on their properties.
+	 * The interval is defined by optional minimum and maximum boundaries.
+	 * This method operates on properties represented as double arrays.
+	 *
+	 * @param peakProperties an array of double values representing the properties of each peak.
+	 * @param pmin           the lower boundary of the interval. This can be:
+	 *                       <ul>
+	 *                         <li>A scalar value applied uniformly to all peaks.</li>
+	 *                         <li>An array of values, where each corresponds to a specific peak.</li>
+	 *                         <li>Null, indicating no lower boundary is applied.</li>
+	 *                       </ul>
+	 * @param pmax           the upper boundary of the interval. This can be:
+	 *                       <ul>
+	 *                         <li>A scalar value applied uniformly to all peaks.</li>
+	 *                         <li>An array of values, where each corresponds to a specific peak.</li>
+	 *                         <li>Null, indicating no upper boundary is applied.</li>
+	 *                       </ul>
+	 * @return a boolean array where each element evaluates to {@code true} if the corresponding peak conforms
+	 *         to the interval, and {@code false} otherwise.
+	 * @throws IllegalArgumentException if {@code pmin} or {@code pmax} is an array of a different length
+	 *                                  than {@code peakProperties}.
+	 */
 	public static boolean[] call(double[] peakProperties, Either.OfTwo<Double, double[]> pmin, Either.OfTwo<Double, double[]> pmax) {
 		double[] pminArray = (pmin == null) ? null : new double[peakProperties.length];
 		double[] pmaxArray = (pmax == null) ? null : new double[peakProperties.length];
@@ -131,23 +169,5 @@ public class SelectByProperty {
 
 		return keep;
 	}
-
-//	/**
-//	 * Overloaded method for scalar pmin and pmax values.
-//	 */
-//	public static boolean[] selectByProperty(double[] peakProperties, Double pmin, Double pmax) {
-//		// Convert scalars to arrays
-//		Double[] pminArray = (pmin == null) ? null : new Double[peakProperties.length];
-//		Double[] pmaxArray = (pmax == null) ? null : new Double[peakProperties.length];
-//
-//		if (pminArray != null) {
-//			Arrays.fill(pminArray, pmin);
-//		}
-//		if (pmaxArray != null) {
-//			Arrays.fill(pmaxArray, pmax);
-//		}
-//
-//		return selectByProperty(peakProperties, pminArray, pmaxArray);
-//	}
 
 }

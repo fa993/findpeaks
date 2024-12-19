@@ -10,30 +10,63 @@ import com.fa993.variations.LocalMaximaJIU;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A utility class for finding peaks in a 1D signal.
+ *
+ * This class provides methods to detect peaks in a signal using various conditions
+ * such as height, threshold, distance, prominence, width, and plateau size.
+ * The primary method is designed to mimic the behavior of Python's SciPy `find_peaks` function.
+ *
+ * The class uses the {@link LocalMaxima} interface for detecting local maxima,
+ * with a default implementation provided by {@link LocalMaximaJIU}.
+ */
 public class FindPeaks {
 	// using JavaInUse's local maxima impl by default
 	private LocalMaxima lm = new LocalMaximaJIU();
 
+	/**
+	 * Default constructor. Uses the {@link LocalMaximaJIU} implementation for detecting local maxima.
+	 */
 	public FindPeaks() {}
 
+	/**
+	 * Constructor that allows specifying a custom {@link LocalMaxima} implementation.
+	 *
+	 * @param impl The custom implementation of the {@link LocalMaxima} interface.
+	 */
 	public FindPeaks(LocalMaxima impl) {
 		this.lm = impl;
 	}
 
 	/**
+	 * Finds peaks in a 1D signal.
 	 *
-	 * @param points the points to find peaks for
-	 * @return object with midpoints of peak, python 1-1
+	 * @param points The input signal array.
+	 * @return An output object containing the indices of detected peaks and an empty properties map.
+	 * @throws IllegalArgumentException If the input signal is null.
 	 */
 	public FindPeaksOutput call(double[] points) {
 		return new FindPeaksOutput(lm.localMaxima1D(points).getMidpoints(), new HashMap<>());
 	}
 
-	// for this function both java in use and code convert give very similar output
 	/**
-	 * see python docs for complete explanation
-	 * @return object with midpoints of peak, python 1-1
+	 * Finds peaks in a 1D signal with various optional conditions and properties.
 	 *
+	 * This method detects peaks in the input signal and applies additional filtering based
+	 * on the provided conditions such as height, threshold, distance, prominence, width, and plateau size.
+	 * It mimics Python's SciPy `find_peaks` function.
+	 *
+	 * @param x            The input signal array.
+	 * @param height       Minimum and/or maximum height of peaks.
+	 * @param threshold    Minimum and/or maximum threshold values for peak bases.
+	 * @param distance     Minimum distance between peaks. Must be ≥ 1.
+	 * @param prominence   Minimum and/or maximum prominence of peaks.
+	 * @param width        Minimum and/or maximum width of peaks.
+	 * @param wlen         Window length for prominence calculation. Rounded up to the nearest odd integer.
+	 * @param relHeight    Relative height for width calculation (default: 0.5 if null).
+	 * @param plateauSize  Minimum and/or maximum size of plateaus.
+	 * @return An output object containing the indices of detected peaks and a properties map with additional details.
+	 * @throws IllegalArgumentException If any input condition is invalid or incompatible with the input signal.
 	 * @see <a href="https://github.com/scipy/scipy/blob/92d2a8592782ee19a1161d0bf3fc2241ba78bb63/scipy/signal/_peak_finding.py#L729">FindPeaks Source</a>
 	 */
 	public FindPeaksOutput call(double[] x, NumOrTwoSeqOrNdArr height, NumOrTwoSeqOrNdArr threshold, Double distance,

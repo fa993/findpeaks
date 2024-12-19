@@ -2,12 +2,34 @@ package com.fa993.variations;
 
 import com.fa993.types.LocalMaximaOutput;
 
+/**
+ * Implementation of the {@link LocalMaxima} interface using a method adapted from
+ * the scipy library's numpy-based peak-finding utility.
+ * <p>
+ * This class provides functionality to find local maxima in a 1-dimensional array
+ * of points. It identifies the peaks, their midpoints, and their left and right edges.
+ * </p>
+ *
+ * Generated Using JavaInUse
+ *
+ * @see <a href="https://github.com/scipy/scipy/blob/92d2a8592782ee19a1161d0bf3fc2241ba78bb63/scipy/signal/_peak_finding_utils.pyx#L20C1-L21C1">Original LocalMaxima source</a>
+ */
 public class LocalMaximaJIU implements LocalMaxima {
 	/**
-	 * JavaInUse's output after putting numpy source for _local_maxima_1d
+	 * Finds local maxima in a 1-dimensional array of points.
+	 * <p>
+	 * This method examines a given array of doubles and identifies the indices of local peaks.
+	 * A peak is defined as a value that is greater than its neighbors. For plateaus (flat regions),
+	 * the peak is considered valid if it transitions to lower values on both sides.
+	 * </p>
 	 *
-	 * @param x array of 1 dimensional points to find peaks for
-	 * @return int[][] with the arr[0] array of midpoints of peaks, arr[1] array of left edges, arr[2] array of right edges
+	 * @param x an array of doubles representing 1-dimensional data points to find peaks for
+	 * @return a {@link LocalMaximaOutput} containing:
+	 *         <ul>
+	 *         <li>Array of midpoints of peaks</li>
+	 *         <li>Array of left edges of peaks</li>
+	 *         <li>Array of right edges of peaks</li>
+	 *         </ul>
 	 *
 	 * @see <a href="https://github.com/scipy/scipy/blob/92d2a8592782ee19a1161d0bf3fc2241ba78bb63/scipy/signal/_peak_finding_utils.pyx#L20C1-L21C1">LocalMaxima source</a>
 	 */

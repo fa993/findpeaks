@@ -2,22 +2,37 @@ package com.fa993.utils;
 
 import java.util.Arrays;
 
+/**
+ * Utility class for selecting peaks based on a specified minimum distance condition.
+ * Peaks that do not meet the distance condition relative to higher-priority peaks are excluded.
+ */
 public class SelectByPeakDistance {
 
 	/**
-	 * Evaluates which peaks fulfill the distance condition.
+	 * Evaluates which peaks fulfill the minimum distance condition based on their priorities.
+	 * Peaks are sorted by priority, and those that violate the distance constraint relative
+	 * to higher-priority peaks are excluded.
 	 *
-	 * @param peaks    Indices of peaks.
-	 * @param priority An array matching `peaks` used to determine priority of each peak.
-	 *                 A peak with a higher priority value is kept over one with a lower one.
-	 * @param distance Minimal distance that peaks must be spaced.
-	 * @return A boolean array evaluating to true where `peaks` fulfill the distance condition.
+	 * @param peaks    an array of indices representing the positions of the peaks.
+	 * @param priority an array of priority values corresponding to each peak. A higher value
+	 *                 indicates a higher priority for that peak.
+	 * @param distance the minimum distance that peaks must be spaced apart.
+	 * @return a boolean array where {@code true} indicates the corresponding peak fulfills
+	 *         the distance condition and should be kept.
 	 */
 	public static boolean[] call(int[] peaks, double[] priority, double distance) {
 		return gpt(peaks, priority, distance);
 	}
 
-	// Right IMPL
+	/**
+	 * Internal implementation of the peak selection algorithm based on distance and priority.
+	 *
+	 * @param peaks    an array of indices representing the positions of the peaks.
+	 * @param priority an array of priority values corresponding to each peak.
+	 * @param distance the minimum distance that peaks must be spaced apart.
+	 * @return a boolean array where {@code true} indicates the corresponding peak fulfills
+	 *         the distance condition and should be kept.
+	 */
 	private static boolean[] gpt(int[] peaks, double[] priority, double distance) {
 		int peaksSize = peaks.length;
 		int distanceRounded = (int) Math.ceil(distance);
@@ -57,7 +72,15 @@ public class SelectByPeakDistance {
 		return keep;
 	}
 
-	// WRONG
+	/**
+	 * Alternative implementation of the peak selection algorithm (incorrect version).
+	 *
+	 * @param peaks    an array of indices representing the positions of the peaks.
+	 * @param priority an array of priority values corresponding to each peak.
+	 * @param distance the minimum distance that peaks must be spaced apart.
+	 * @return a boolean array where {@code true} indicates the corresponding peak fulfills
+	 *         the distance condition and should be kept.
+	 */
 	private static boolean[] jiu(int[] peaks, double[] priority, double distance) {
 		int peaksSize = peaks.length;
 		int distance_ = (int) Math.ceil(distance);
@@ -90,7 +113,15 @@ public class SelectByPeakDistance {
 		return result;
 	}
 
-	// WRONG
+	/**
+	 * Another alternative implementation of the peak selection algorithm (incorrect version).
+	 *
+	 * @param peaks    an array of indices representing the positions of the peaks.
+	 * @param priority an array of priority values corresponding to each peak.
+	 * @param distance the minimum distance that peaks must be spaced apart.
+	 * @return a boolean array where {@code true} indicates the corresponding peak fulfills
+	 *         the distance condition and should be kept.
+	 */
 	private static boolean[] cc(int[] peaks, double[] priority, double distance) {
 		int peaksSize = peaks.length;
 		int distance_ = (int) Math.ceil(distance);

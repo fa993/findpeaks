@@ -2,17 +2,22 @@ package com.fa993.utils;
 
 import com.fa993.types.PeakProminenceOutput;
 
+/**
+ * Utility class for calculating the prominence of peaks in a signal.
+ *
+ * This class includes methods to validate parameters and compute the prominence of peaks,
+ * which is a measure of how much a peak stands out relative to its surrounding signal.
+ */
 public class PeakProminences {
 
-
-
 	/**
-	 * Ensure argument `wlen` is of type `int` and larger than 1.
+	 * Validates and ensures the input window length (`wlen`) is of type `int` and greater than 1.
 	 *
-	 * Used in peakProminences and peakWidths.
+	 * This method is used to process and validate the `wlen` parameter for peak prominence
+	 * and width calculations.
 	 *
 	 * @param value The input value to validate and convert.
-	 * @return The original `value` rounded up to an integer or -1 if `value` was null.
+	 * @return The original `value` rounded up to an integer, or -1 if `value` is null (indicating no value was provided).
 	 * @throws IllegalArgumentException if `value` is not larger than 1.
 	 */
 	public static int argWlenAsExpected(Integer value) {
@@ -29,14 +34,22 @@ public class PeakProminences {
 
 
 	/**
-	 * Calculate the prominence of each peak in a signal.
+	 * Calculates the prominence of each peak in a signal.
 	 *
-	 * @param x        A signal array with peaks.
-	 * @param peaks    Indices of peaks in `x`.
-	 * @param wlen     A window length in samples which is rounded up to the nearest odd integer.
-	 *                 If smaller than 2, the entire signal `x` is used.
-	 * @return A result object containing the prominences and the left and right bases for each peak.
-	 * @throws IllegalArgumentException If a value in `peaks` is an invalid index for `x`.
+	 * Peak prominence is defined as the vertical distance between the peak and its lowest contour line,
+	 * which is the higher of the lowest points to its left and right within the specified window.
+	 *
+	 * @param x     A signal array containing peaks to evaluate.
+	 * @param peaks Indices of peaks in the signal array `x`.
+	 * @param wlen  A window length in samples. The window length is rounded up to the nearest odd integer.
+	 *              If `wlen` is smaller than 2, the entire signal `x` is used for prominence calculation.
+	 * @return A {@link PeakProminenceOutput} object containing:
+	 *         <ul>
+	 *             <li>Array of prominences for each peak.</li>
+	 *             <li>Array of left base indices for each peak.</li>
+	 *             <li>Array of right base indices for each peak.</li>
+	 *         </ul>
+	 * @throws IllegalArgumentException if `x` or `peaks` is null, or if any value in `peaks` is an invalid index for `x`.
 	 */
 	public static PeakProminenceOutput call(double[] x, int[] peaks, int wlen) {
 		if (x == null || peaks == null) {

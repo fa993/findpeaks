@@ -16,7 +16,20 @@ public class Either {
 	 * Enum representing the possible choices: First, Second, or Third.
 	 */
 	public enum Selector {
-		First, Second, Third;
+		/**
+		 * Represents the first choice.
+		 */
+		First,
+
+		/**
+		 * Represents the second choice.
+		 */
+		Second,
+
+		/**
+		 * Represents the third choice.
+		 */
+		Third;
 
 		/**
 		 * Checks if the current selection is {@code First}.

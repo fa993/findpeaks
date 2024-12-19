@@ -2,9 +2,9 @@ name: Deploy Javadoc
 
 on:
   push:
-    branches:
-      - master
-      - main
+    # Pattern matched against refs/tags
+    tags:
+      - '*'
 
 jobs:
   publish:

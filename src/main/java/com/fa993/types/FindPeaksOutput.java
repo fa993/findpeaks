@@ -68,7 +68,6 @@ public class FindPeaksOutput {
 	 * <li>Array values in the properties maps are compared deeply</li>
 	 * </ul>
 	 * </p>
-	 * </p>
 	 * <p><b>Note:</b> Two empty arrays are considered equal regardless of their types.</p>
 	 *
 	 * @param o the object to compare to

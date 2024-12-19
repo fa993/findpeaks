@@ -103,12 +103,9 @@ public class TestUtils {
 
 	public static List<String> runAgainstPythonScript(String scriptName, int iters, Function<Integer, List<String>> producer) throws IOException, InterruptedException {
 		File input = new File(System.getProperty("user.dir") + "/input.txt");
-		File output = new File(System.getProperty("user.dir") + "/output.txt");
-		output.delete();
 		input.delete();
 		input.createNewFile();
 		input.deleteOnExit();
-		output.deleteOnExit();
 		BufferedWriter bw = new BufferedWriter(new FileWriter(input));
 		for(int i = 0; i < iters; i++) {
 			List<String> l0 = producer.apply(i);
@@ -119,15 +116,13 @@ public class TestUtils {
 		}
 		bw.close();
 		ProcessBuilder processBuilder = new ProcessBuilder(System.getProperty("user.dir") + "/test_script.sh", scriptName);
-		processBuilder.redirectOutput(output);
 		processBuilder.redirectErrorStream(true);
 		Process process = processBuilder.start();
+		BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+		List<String> lst = br.lines().collect(Collectors.toList());
 		int exitCode = process.waitFor();
 		assertEquals(0, exitCode);
-		BufferedReader br = new BufferedReader(new FileReader(output));
-		List<String> lst = br.lines().collect(Collectors.toList());
 		input.delete();
-		output.delete();
 		return lst;
 	}
 

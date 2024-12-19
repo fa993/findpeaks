@@ -62,12 +62,12 @@ public class FindPeaksOutput {
 	 * Compares this object to another object for equality.
 	 * <p>
 	 * Two {@code FindPeaksOutput} objects are considered equal if:
+	 * </p>
 	 * <ul>
 	 * <li>Both have the same midpoints</li>
 	 * <li>Both have properties maps with the same keys and values</li>
 	 * <li>Array values in the properties maps are compared deeply</li>
 	 * </ul>
-	 * </p>
 	 * <p><b>Note:</b> Two empty arrays are considered equal regardless of their types.</p>
 	 *
 	 * @param o the object to compare to

@@ -21,7 +21,7 @@ public class UnpackConditionArgsTest {
 		int count = 1000;
 		int[][] outsJIU = new int[iters][];
 		Double[][] ans = new Double[iters][];
-		List<String> lst = TestUtils.runAgainstShellScript("test_unpack_condition_args.sh", iters, (i) -> {
+		List<String> lst = TestUtils.runAgainstPythonScript("test_unpack_condition_args.py", iters, (i) -> {
 			double[] points = TestUtils.getRandomPoints(count);
 			double ptr = TestUtils.getRandomPoints(1)[0];
 			outsJIU[i] = way1.localMaxima1D(points).getMidpoints();
@@ -47,7 +47,7 @@ public class UnpackConditionArgsTest {
 		int count = 1000;
 		int[][] outsJIU = new int[iters][];
 		Double[][] ans = new Double[iters][];
-		List<String> lst = TestUtils.runAgainstShellScript("test_unpack_condition_args.sh", iters, (i) -> {
+		List<String> lst = TestUtils.runAgainstPythonScript("test_unpack_condition_args.py", iters, (i) -> {
 			double[] points = TestUtils.getRandomPoints(count);
 			double[] ptrs = TestUtils.getRandomPoints(2);
 			outsJIU[i] = way1.localMaxima1D(points).getMidpoints();
@@ -73,7 +73,7 @@ public class UnpackConditionArgsTest {
 		int count = 1000;
 		int[][] outsJIU = new int[iters][];
 		double[][][] ans = new double[iters][][];
-		List<String> lst = TestUtils.runAgainstShellScript("test_unpack_condition_args.sh", iters, (i) -> {
+		List<String> lst = TestUtils.runAgainstPythonScript("test_unpack_condition_args.py", iters, (i) -> {
 			double[] points = TestUtils.getRandomPoints(count);
 			double[] ptrs = TestUtils.getRandomPoints(points.length * 2);
 			double[][] pttrs = TestUtils.reshape(ptrs, 2);

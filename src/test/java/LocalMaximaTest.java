@@ -36,7 +36,7 @@ public class LocalMaximaTest {
 		int count = 1000;
 		LocalMaximaOutput[] outsJIU = new LocalMaximaOutput[iters];
 		LocalMaximaOutput[] outsCC = new LocalMaximaOutput[iters];
-		List<String> lst = TestUtils.runAgainstShellScript("test_maxima.sh", iters, (i) -> {
+		List<String> lst = TestUtils.runAgainstPythonScript("test_maxima.py", iters, (i) -> {
 			double[] points = TestUtils.getRandomPoints(count);
 			outsJIU[i] = way1.localMaxima1D(points);
 			outsCC[i] = way2.localMaxima1D(points);

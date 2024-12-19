@@ -101,7 +101,7 @@ public class TestUtils {
 		return true;
 	}
 
-	public static List<String> runAgainstShellScript(String scriptName, int iters, Function<Integer, List<String>> producer) throws IOException, InterruptedException {
+	public static List<String> runAgainstPythonScript(String scriptName, int iters, Function<Integer, List<String>> producer) throws IOException, InterruptedException {
 		File input = new File(System.getProperty("user.dir") + "/input.txt");
 		File output = new File(System.getProperty("user.dir") + "/output.txt");
 		output.delete();
@@ -118,7 +118,7 @@ public class TestUtils {
 			}
 		}
 		bw.close();
-		ProcessBuilder processBuilder = new ProcessBuilder(System.getProperty("user.dir") + "/" + scriptName);
+		ProcessBuilder processBuilder = new ProcessBuilder(System.getProperty("user.dir") + "/test_script.sh", scriptName);
 		processBuilder.redirectOutput(output);
 		processBuilder.redirectErrorStream(true);
 		Process process = processBuilder.start();

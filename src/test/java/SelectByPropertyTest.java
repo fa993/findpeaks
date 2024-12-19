@@ -20,7 +20,7 @@ public class SelectByPropertyTest {
 		int count = 1000;
 		int[][] outsJIU = new int[iters][];
 		boolean[][] ans = new boolean[iters][];
-		List<String> lst = TestUtils.runAgainstShellScript("test_select_by_property.sh", iters, (i) -> {
+		List<String> lst = TestUtils.runAgainstPythonScript("test_select_by_property.py", iters, (i) -> {
 			double[] points = TestUtils.getRandomPoints(count);
 			double[] ptrs = TestUtils.getRandomPoints(2);
 			outsJIU[i] = way1.localMaxima1D(points).getMidpoints();
@@ -45,7 +45,7 @@ public class SelectByPropertyTest {
 		int count = 1000;
 		int[][] outsJIU = new int[iters][];
 		boolean[][] ans = new boolean[iters][];
-		List<String> lst = TestUtils.runAgainstShellScript("test_select_by_property.sh", iters, (i) -> {
+		List<String> lst = TestUtils.runAgainstPythonScript("test_select_by_property.py", iters, (i) -> {
 			double[] points = TestUtils.getRandomPoints(count);
 			double[] ptrs = TestUtils.getRandomPoints(2);
 			outsJIU[i] = way1.localMaxima1D(points).getMidpoints();
@@ -70,7 +70,7 @@ public class SelectByPropertyTest {
 		int count = 1000;
 		int[][] outsJIU = new int[iters][];
 		boolean[][] ans = new boolean[iters][];
-		List<String> lst = TestUtils.runAgainstShellScript("test_select_by_property.sh", iters, (i) -> {
+		List<String> lst = TestUtils.runAgainstPythonScript("test_select_by_property.py", iters, (i) -> {
 			double[] points = TestUtils.getRandomPoints(count);
 			double[] ptrs = TestUtils.getRandomPoints(2);
 			outsJIU[i] = way1.localMaxima1D(points).getMidpoints();
@@ -95,7 +95,7 @@ public class SelectByPropertyTest {
 		int count = 1000;
 		int[][] outsJIU = new int[iters][];
 		boolean[][] ans = new boolean[iters][];
-		List<String> lst = TestUtils.runAgainstShellScript("test_select_by_property.sh", iters, (i) -> {
+		List<String> lst = TestUtils.runAgainstPythonScript("test_select_by_property.py", iters, (i) -> {
 			double[] points = TestUtils.getRandomPoints(count);
 			outsJIU[i] = way1.localMaxima1D(points).getMidpoints();
 			double[] ptrs = TestUtils.getRandomPoints(2 * outsJIU[i].length);
